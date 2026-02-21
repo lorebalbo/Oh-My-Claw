@@ -6,6 +6,28 @@ verified: 2026-02-21
 
 # Phase 1: App Foundation & File Watching — Verification
 
+## Build Verification
+**xcodebuild build:** SUCCEEDED (after 2 fixes)
+
+Two issues found and fixed (commit `8e6d0bb`):
+1. **`AppCoordinator.appState` was `let`** — Swift's `@Bindable` key path binding in `MenuBarView` requires a writable path. Changed `let appState = AppState()` to `var appState = AppState()`.
+2. **Test target missing `GENERATE_INFOPLIST_FILE`** — `OhMyClawTests` target had no Info.plist and wasn't set to auto-generate one. Added `GENERATE_INFOPLIST_FILE: true` to `project.yml`.
+
+After fixes: `xcodebuild -scheme OhMyClaw -configuration Debug build` → **BUILD SUCCEEDED**.
+
+## Test Verification
+**xcodebuild test:** 21/21 tests passed
+
+```
+Test Suite 'ConfigStoreTests' — 9 tests, 0 failures (0.009s)
+Test Suite 'FileWatcherTests' — 12 tests, 0 failures (0.007s)
+Total: 21 tests, 0 failures (0.016s)
+```
+
+Test breakdown:
+- **ConfigStoreTests (9):** testDefaultValues, testFirstLaunchCreatesConfigFile, testFirstLaunchUsesDefaults, testInvalidJSONFallsBackToDefaults, testInvalidValuesReportErrors, testLoadsValidConfig, testMissingSectionsFallbackToDefaults, testSavePersistsConfig, testSaveWritesAtomically
+- **FileWatcherTests (12):** testCaseInsensitiveExtensionMatching, testCustomWatchDirectory, testDefaultWatchDirectory, testDirectoryEventNotFileAppeared, testDotfileIsHidden, testFileAppearedEvent, testFileRemovedEvent, testHiddenFileDetection, testNonTemporaryExtensions, testScanExistingFilesSkipsHiddenAndTemp, testShouldBeIgnoredCombinesChecks, testTemporaryDownloadExtensions
+
 ## Success Criteria
 
 ### 1. Menu bar app with monitoring toggle
@@ -15,7 +37,7 @@ verified: 2026-02-21
 - `OhMyClawApp.swift` uses `MenuBarExtra("Oh My Claw", systemImage: "tray.and.arrow.down.fill")` with `.menuBarExtraStyle(.window)` — icon in menu bar, dropdown on click
 - `MenuBarView.swift` has `Toggle("Monitoring", isOn: $coordinator.appState.isMonitoring).toggleStyle(.switch).tint(.green)` — switch-style toggle
 - `MenuBarView.swift` has `Button("Quit Oh My Claw") { NSApplication.shared.terminate(nil) }` — quit action
-- `AppState.swift`:  `var isMonitoring: Bool = true` — auto-starts on launch
+- `AppState.swift`: `var isMonitoring: Bool = true` — auto-starts on launch
 - `AppCoordinator.toggleMonitoring(_:)` starts/stops `FileWatcher` based on toggle state
 - `.task { await coordinator.start() }` in MenuBarView auto-launches services
 
@@ -34,7 +56,7 @@ verified: 2026-02-21
 - `URL.shouldBeIgnored` combines `isHiddenFile || isTemporaryDownload`
 - `FileWatcher.handleRawEvent()` applies `guard !event.url.shouldBeIgnored else { return }` before debouncing
 - `FileWatcher.scanExistingFiles()` applies `guard !fileURL.shouldBeIgnored` before emitting
-- `FileWatcherTests.swift` has dedicated tests: `testTemporaryDownloadExtensions` (all 6), `testCaseInsensitiveExtensionMatching`, `testScanExistingFilesSkipsHiddenAndTemp`
+- `FileWatcherTests` has dedicated tests: `testTemporaryDownloadExtensions` (all 6), `testCaseInsensitiveExtensionMatching`, `testScanExistingFilesSkipsHiddenAndTemp`
 
 ### 4. Config created on first launch
 **Status:** ✓ Passed
@@ -56,28 +78,20 @@ verified: 2026-02-21
 | CFG-01 | App reads settings from external JSON config file | ✓ Passed | `ConfigStore` loads from `~/Library/Application Support/OhMyClaw/config.json`; `AppConfig` is `Codable` with 4 nested sections and per-section fallback decoding; first launch creates file from bundled defaults; validation with human-readable errors |
 | INF-03 | All operations are logged to rotating log file | ✓ Passed | `AppLogger` singleton writes JSON-lines (`{"ts","level","msg","ctx"}`) to `~/Library/Logs/OhMyClaw/ohmyclaw.log`; 10MB rotation, 3-file retention; configurable level (debug/info/warn/error); thread-safe via `DispatchQueue`; all key operations logged: start, stop, file detected, file disappeared, config errors |
 
-## Human Verification (if needed)
+## Human Verification
 
-The following items require manual testing on a machine with Xcode.app installed:
+The following items can only be confirmed by manually launching and interacting with the app:
 
-1. **Build & launch** — `xcrun swiftc -typecheck` and `-parse` passed during development, but a full `xcodebuild` or Xcode run was not performed (Command Line Tools only, no Xcode.app)
-2. **Unit tests** — `ConfigStoreTests` (9 tests) and `FileWatcherTests` (11 tests) were structurally verified but not executed via `xcodebuild test` (requires Xcode.app)
-3. **End-to-end file drop** — Drop a file into ~/Downloads and verify a log entry appears in `~/Library/Logs/OhMyClaw/ohmyclaw.log` within 5 seconds
-4. **Toggle round-trip** — Toggle monitoring off/on from the menu bar and verify FileWatcher stops/restarts (logged)
-5. **First-launch config creation** — Delete `~/Library/Application Support/OhMyClaw/config.json`, launch app, verify file is recreated with defaults
+1. **End-to-end file drop** — Drop a file into ~/Downloads and verify a log entry appears in `~/Library/Logs/OhMyClaw/ohmyclaw.log` within 5 seconds
+2. **Toggle round-trip** — Toggle monitoring off/on from the menu bar and verify FileWatcher stops/restarts (logged)
+3. **First-launch config creation** — Delete `~/Library/Application Support/OhMyClaw/config.json`, launch app, verify file is recreated with defaults
 
 ## Gaps
 
-None found. All 4 success criteria are met and all 6 requirement IDs are accounted for in the implemented code.
+None.
 
 ## Summary
 
 **Phase 1: PASSED**
 
-All four success criteria are verified against the actual codebase:
-- Menu bar app with LSUIElement, SF Symbol icon, switch-style toggle, and Quit button ✓
-- FSEvents watcher with 4.0s total latency (debounce + stability), well within 5s budget ✓
-- Six temp-file extensions filtered at both event handling and existing-file scan points ✓
-- ConfigStore creates config at Application Support path on first launch with bundled defaults ✓
-
-All six requirements (APP-01, WATCH-01, WATCH-02, WATCH-03, CFG-01, INF-03) are implemented with appropriate code, tests (20 total: 9 ConfigStore + 11 FileWatcher), and structured logging throughout. The only caveat is that full build and test execution require Xcode.app (not just Command Line Tools), so runtime verification is deferred to human testing.
+Full Xcode build succeeded after two minor fixes (let→var for Bindable, GENERATE_INFOPLIST_FILE for test target). All 21 unit tests (9 ConfigStore + 12 FileWatcher) pass with zero failures. All four success criteria verified. All six requirements (APP-01, WATCH-01, WATCH-02, WATCH-03, CFG-01, INF-03) implemented with tests and structured logging. Only remaining items are manual end-to-end tests (file drop, toggle, first-launch) which require running the app interactively.
