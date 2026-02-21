@@ -1,0 +1,46 @@
+name: OhMyClaw
+options:
+  bundleIdPrefix: com.ohmyclaw
+  deploymentTarget:
+    macOS: "13.0"
+  defaultConfig: Release
+  groupSortPosition: top
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+targets:
+  OhMyClaw:
+    type: application
+    platform: macOS
+    sources:
+      - path: OhMyClaw
+        excludes:
+          - "**/*.md"
+    info:
+      path: OhMyClaw/Info.plist
+      properties:
+        LSUIElement: true
+        NSSupportsAutomaticTermination: false
+        CFBundleDisplayName: Oh My Claw
+        CFBundleName: OhMyClaw
+        NSHumanReadableCopyright: ""
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ohmyclaw.app
+        GENERATE_INFOPLIST_FILE: false
+        CODE_SIGN_STYLE: Automatic
+        INFOPLIST_FILE: OhMyClaw/Info.plist
+    resources:
+      - path: OhMyClaw/Resources
+        buildPhase: resources
+  OhMyClawTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: OhMyClaw
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ohmyclaw.tests

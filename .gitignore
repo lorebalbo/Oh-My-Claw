@@ -1,0 +1,15 @@
+.claude
+
+# Generated Xcode project (regenerate via `xcodegen generate`)
+*.xcodeproj/
+*.xcworkspace/
+
+# Build artifacts
+build/
+DerivedData/
+*.xcresult
+
+# macOS
+.DS_Store
+*.swp
+*~
