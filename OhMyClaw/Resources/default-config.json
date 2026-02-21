@@ -1,0 +1,24 @@
+{
+  "watcher": {
+    "debounceSeconds": 3.0,
+    "stabilityCheckInterval": 0.5,
+    "ignoredExtensions": [".crdownload", ".part", ".tmp", ".download", ".partial", ".downloading"]
+  },
+  "audio": {
+    "enabled": true,
+    "requiredMetadataFields": ["title", "artist", "album"],
+    "minDurationSeconds": 60,
+    "qualityCutoff": "mp3_320",
+    "destinationPath": "~/Music"
+  },
+  "pdf": {
+    "enabled": true,
+    "lmStudioPort": 1234,
+    "destinationPath": "~/Documents/Papers"
+  },
+  "logging": {
+    "level": "info",
+    "maxFileSizeMB": 10,
+    "maxRotatedFiles": 3
+  }
+}
