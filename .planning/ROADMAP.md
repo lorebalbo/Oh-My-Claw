@@ -5,7 +5,7 @@
 Oh My Claw is delivered in 6 sequential phases following natural dependency boundaries: foundation first (app shell, file watcher, config, logging), then the primary audio pipeline split into detection/organization and conversion/quality, followed by the secondary PDF classification pipeline, then the full menu bar UI and controls, and finally production hardening. Each phase produces a vertically integrated slice that can be verified end-to-end before proceeding. All 32 v1 requirements are mapped exactly once.
 
 ## Phases
-- [ ] **Phase 1: App Foundation & File Watching** — Menu bar app shell, FSEvents watcher, config system, and logging
+- [x] **Phase 1: App Foundation & File Watching** — Menu bar app shell, FSEvents watcher, config system, and logging (completed 2026-02-21)
 - [ ] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music
 - [ ] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging
 - [ ] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via LM Studio
@@ -20,7 +20,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 **Requirements**: APP-01, WATCH-01, WATCH-02, WATCH-03, CFG-01, INF-03
 **Success Criteria** (what must be TRUE):
   1. App appears as a menu bar icon with no Dock presence; clicking the icon reveals a dropdown where the user can toggle monitoring on/off
-  2. Dropping a file in ~/Downloads produces a timestamped log entry within 2 seconds
+  2. Dropping a file in ~/Downloads produces a timestamped log entry within 5 seconds (debounce + stability check)
   3. Temporary/partial download files (.crdownload, .part, .tmp, .download) are never logged or processed
   4. config.json is created with defaults at ~/Library/Application Support/OhMyClaw/ on first launch and settings are read from it on subsequent launches
 
@@ -119,7 +119,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. App Foundation & File Watching | 0/4 | Not started | - |
+| 1. App Foundation & File Watching | 0/4 | Complete    | 2026-02-21 |
 | 2. Audio Detection & Organization | 0/3 | Not started | - |
 | 3. Audio Conversion & Quality | 0/3 | Not started | - |
 | 4. PDF Classification | 0/2 | Not started | - |

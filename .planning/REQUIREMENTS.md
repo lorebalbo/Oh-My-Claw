@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Menu Bar & App Lifecycle
 
-- [ ] **APP-01**: User can toggle the app on/off from the menu bar icon
+- [x] **APP-01**: User can toggle the app on/off from the menu bar icon
 - [ ] **APP-02**: User can pause monitoring from the menu bar (in-flight tasks continue to completion)
 - [ ] **APP-03**: User can toggle Launch at Login from the menu bar
 - [ ] **APP-04**: Menu bar icon visually indicates app state (idle/processing/error)
@@ -17,9 +17,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### File Watching
 
-- [ ] **WATCH-01**: App monitors ~/Downloads in real-time using FSEvents
-- [ ] **WATCH-02**: Watcher debounces file events to avoid processing incomplete downloads
-- [ ] **WATCH-03**: Watcher ignores temporary files (.crdownload, .part, .tmp, .download)
+- [x] **WATCH-01**: App monitors ~/Downloads in real-time using FSEvents
+- [x] **WATCH-02**: Watcher debounces file events to avoid processing incomplete downloads
+- [x] **WATCH-03**: Watcher ignores temporary files (.crdownload, .part, .tmp, .download)
 
 ### Audio Pipeline
 
@@ -44,7 +44,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Configuration
 
-- [ ] **CFG-01**: App reads settings from external JSON config file
+- [x] **CFG-01**: App reads settings from external JSON config file
 - [ ] **CFG-02**: User can edit duration threshold from menu bar
 - [ ] **CFG-03**: User can edit format ranking cutoff from menu bar
 - [ ] **CFG-04**: User can edit LM Studio port from menu bar
@@ -54,7 +54,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **INF-01**: App checks for ffmpeg availability at launch and guides user to install if missing
 - [ ] **INF-02**: Errors trigger menu bar notification
-- [ ] **INF-03**: All operations are logged to rotating log file
+- [x] **INF-03**: All operations are logged to rotating log file
 - [ ] **INF-04**: App handles macOS sleep/wake by re-establishing file watchers
 
 ## v2 Requirements
