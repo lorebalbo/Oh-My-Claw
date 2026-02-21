@@ -13,7 +13,7 @@ import SwiftUI
 @MainActor
 @Observable
 final class AppCoordinator {
-    let appState = AppState()
+    var appState = AppState()
     private var configStore: ConfigStore?
     private var fileWatcher: FileWatcher?
     private var eventLoopTask: Task<Void, Never>?

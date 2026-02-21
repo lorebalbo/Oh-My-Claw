@@ -44,3 +44,4 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.ohmyclaw.tests
+        GENERATE_INFOPLIST_FILE: true
