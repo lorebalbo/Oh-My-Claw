@@ -25,10 +25,10 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
   4. config.json is created with defaults at ~/Library/Application Support/OhMyClaw/ on first launch and settings are read from it on subsequent launches
 
 Plans:
-- [ ] 01-01: Xcode project scaffold with MenuBarExtra, LSUIElement, and SPM configuration
-- [ ] 01-02: Configuration system — ConfigStore with JSON model, bundled defaults, and Application Support persistence
-- [ ] 01-03: FSEvents file watcher with debounce and temp file filtering
-- [ ] 01-04: Logging infrastructure with rotating log file and on/off toggle wiring
+- [x] 01-01: Xcode project scaffold with MenuBarExtra, LSUIElement, and SPM configuration
+- [x] 01-02: Configuration system — ConfigStore with JSON model, bundled defaults, and Application Support persistence
+- [x] 01-03: FSEvents file watcher with debounce and temp file filtering
+- [x] 01-04: Logging infrastructure with rotating log file and on/off toggle wiring
 
 ---
 
