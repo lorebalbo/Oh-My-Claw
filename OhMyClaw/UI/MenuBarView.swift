@@ -11,6 +11,11 @@ struct MenuBarView: View {
             Toggle("Monitoring", isOn: $coordinator.appState.isMonitoring)
                 .toggleStyle(.switch)
                 .tint(.green)
+                .onChange(of: coordinator.appState.isMonitoring) { _, newValue in
+                    Task {
+                        await coordinator.toggleMonitoring(newValue)
+                    }
+                }
 
             Divider()
 
@@ -20,5 +25,8 @@ struct MenuBarView: View {
         }
         .padding(16)
         .frame(width: 220)
+        .task {
+            await coordinator.start()
+        }
     }
 }
