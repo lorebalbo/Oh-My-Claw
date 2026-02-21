@@ -43,9 +43,9 @@ Plans:
   4. When a file with the same title+artist already exists in ~/Music (regardless of format), the incoming duplicate in ~/Downloads is deleted
 
 Plans:
-- [ ] 02-01: Audio file detection and metadata reading service (AVFoundation, file extension + MIME type)
-- [ ] 02-02: Metadata validation and duration filtering pipeline steps
-- [ ] 02-03: Duplicate detection (title+artist cross-format index) and file move to ~/Music
+- [ ] 02-01: Audio file identification (UTType) and metadata reading (AVFoundation async API)
+- [ ] 02-02: Music library index actor, AudioTask pipeline (validate → filter → deduplicate → move)
+- [ ] 02-03: AppCoordinator integration (index build, event routing) and unit tests
 
 ---
 
