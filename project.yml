@@ -2,13 +2,13 @@ name: OhMyClaw
 options:
   bundleIdPrefix: com.ohmyclaw
   deploymentTarget:
-    macOS: "13.0"
+    macOS: "14.0"
   defaultConfig: Release
   groupSortPosition: top
 settings:
   base:
     SWIFT_VERSION: "5.10"
-    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
 targets:
   OhMyClaw:
     type: application
