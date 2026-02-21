@@ -115,10 +115,10 @@ func convert(input: URL, output: URL) async throws {
     let process = Process()
     process.executableURL = URL(fileURLWithPath: "/opt/homebrew/bin/ffmpeg")
     process.arguments = ["-i", input.path, "-f", "aiff", "-acodec", "pcm_s16be", "-y", output.path]
-    
+
     let stderr = Pipe()
     process.standardError = stderr
-    
+
     return try await withCheckedThrowingContinuation { continuation in
         process.terminationHandler = { proc in
             if proc.terminationStatus == 0 {

@@ -1,7 +1,7 @@
 # Architecture Research
 
-**Domain:** macOS Menu Bar File Organizer  
-**Researched:** 2026-02-21  
+**Domain:** macOS Menu Bar File Organizer
+**Researched:** 2026-02-21
 **Confidence:** HIGH
 
 ---

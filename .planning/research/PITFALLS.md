@@ -1,7 +1,7 @@
 # Pitfalls Research
 
-**Domain:** macOS Menu Bar File Organizer (Swift/SwiftUI)  
-**Researched:** 2026-02-21  
+**Domain:** macOS Menu Bar File Organizer (Swift/SwiftUI)
+**Researched:** 2026-02-21
 **Confidence:** HIGH
 
 ---
@@ -54,7 +54,7 @@
 **How to avoid:**
 - Set `ProcessInfo.processInfo.automaticTerminationSupportEnabled = false` to prevent macOS from auto-terminating
 - Call `ProcessInfo.processInfo.disableAutomaticTermination("File watcher active")` while processing
-- Disable App Nap: `ProcessInfo.processInfo.disableSuddenTermination()`  
+- Disable App Nap: `ProcessInfo.processInfo.disableSuddenTermination()`
   or add `NSSupportsAutomaticTermination = NO` to Info.plist
 - Re-create `NSStatusItem` in `applicationDidBecomeActive` / `NSWorkspace.didWakeNotification` as a safety net
 - Re-establish file watchers after wake events — `DispatchSource` file monitors can silently stop after sleep

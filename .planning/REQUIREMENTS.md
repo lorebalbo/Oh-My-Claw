@@ -94,44 +94,54 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| APP-01 | Pending | Pending |
-| APP-02 | Pending | Pending |
-| APP-03 | Pending | Pending |
-| APP-04 | Pending | Pending |
-| APP-05 | Pending | Pending |
-| WATCH-01 | Pending | Pending |
-| WATCH-02 | Pending | Pending |
-| WATCH-03 | Pending | Pending |
-| AUD-01 | Pending | Pending |
-| AUD-02 | Pending | Pending |
-| AUD-03 | Pending | Pending |
-| AUD-04 | Pending | Pending |
-| AUD-05 | Pending | Pending |
-| AUD-06 | Pending | Pending |
-| AUD-07 | Pending | Pending |
-| AUD-08 | Pending | Pending |
-| AUD-09 | Pending | Pending |
-| AUD-10 | Pending | Pending |
-| AUD-11 | Pending | Pending |
-| PDF-01 | Pending | Pending |
-| PDF-02 | Pending | Pending |
-| PDF-03 | Pending | Pending |
-| PDF-04 | Pending | Pending |
-| CFG-01 | Pending | Pending |
-| CFG-02 | Pending | Pending |
-| CFG-03 | Pending | Pending |
-| CFG-04 | Pending | Pending |
-| CFG-05 | Pending | Pending |
-| INF-01 | Pending | Pending |
-| INF-02 | Pending | Pending |
-| INF-03 | Pending | Pending |
-| INF-04 | Pending | Pending |
+| APP-01 | Phase 1 | Not started |
+| APP-02 | Phase 5 | Not started |
+| APP-03 | Phase 5 | Not started |
+| APP-04 | Phase 5 | Not started |
+| APP-05 | Phase 5 | Not started |
+| WATCH-01 | Phase 1 | Not started |
+| WATCH-02 | Phase 1 | Not started |
+| WATCH-03 | Phase 1 | Not started |
+| AUD-01 | Phase 2 | Not started |
+| AUD-02 | Phase 2 | Not started |
+| AUD-03 | Phase 2 | Not started |
+| AUD-04 | Phase 2 | Not started |
+| AUD-05 | Phase 2 | Not started |
+| AUD-06 | Phase 2 | Not started |
+| AUD-07 | Phase 3 | Not started |
+| AUD-08 | Phase 3 | Not started |
+| AUD-09 | Phase 3 | Not started |
+| AUD-10 | Phase 3 | Not started |
+| AUD-11 | Phase 3 | Not started |
+| PDF-01 | Phase 4 | Not started |
+| PDF-02 | Phase 4 | Not started |
+| PDF-03 | Phase 4 | Not started |
+| PDF-04 | Phase 4 | Not started |
+| CFG-01 | Phase 1 | Not started |
+| CFG-02 | Phase 5 | Not started |
+| CFG-03 | Phase 5 | Not started |
+| CFG-04 | Phase 5 | Not started |
+| CFG-05 | Phase 6 | Not started |
+| INF-01 | Phase 3 | Not started |
+| INF-02 | Phase 6 | Not started |
+| INF-03 | Phase 1 | Not started |
+| INF-04 | Phase 6 | Not started |
 
 **Coverage:**
-- v1 requirements: 31 total
-- Mapped to phases: 0
-- Unmapped: 31 ⚠️
+- v1 requirements: 32 total
+- Mapped to phases: 32 ✅
+- Unmapped: 0
+
+| Phase | Requirements | Count |
+|-------|-------------|-------|
+| Phase 1 | APP-01, WATCH-01, WATCH-02, WATCH-03, CFG-01, INF-03 | 6 |
+| Phase 2 | AUD-01, AUD-02, AUD-03, AUD-04, AUD-05, AUD-06 | 6 |
+| Phase 3 | AUD-07, AUD-08, AUD-09, AUD-10, AUD-11, INF-01 | 6 |
+| Phase 4 | PDF-01, PDF-02, PDF-03, PDF-04 | 4 |
+| Phase 5 | APP-02, APP-03, APP-04, APP-05, CFG-02, CFG-03, CFG-04 | 7 |
+| Phase 6 | CFG-05, INF-02, INF-04 | 3 |
+| **Total** | | **32** |
 
 ---
 *Requirements defined: 2026-02-21*
-*Last updated: 2026-02-21 after initialization*
+*Last updated: 2026-02-21 — Traceability mapped to roadmap phases*
