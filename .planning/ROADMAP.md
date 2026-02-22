@@ -45,7 +45,7 @@ Plans:
 Plans:
 - [x] 02-01: Audio file identification (UTType) and metadata reading (AVFoundation async API)
 - [x] 02-02: Music library index actor, AudioTask pipeline (validate → filter → deduplicate → move)
-- [ ] 02-03: AppCoordinator integration (index build, event routing) and unit tests
+- [x] 02-03: AppCoordinator integration (index build, event routing) and unit tests
 
 ---
 
