@@ -223,20 +223,34 @@ final class AppCoordinator {
         eventLoopTask = nil
         fileWatcher?.stop()
         fileWatcher = nil
+        iconAnimator.stopAnimating()
         AppLogger.shared.info("File monitoring stopped")
+    }
+
+    /// Pause monitoring — stops the file watcher but lets in-flight tasks finish.
+    func pauseMonitoring() {
+        appState.monitoringState = .paused
+        fileWatcher?.stop()
+        fileWatcher = nil
+        // Do NOT cancel eventLoopTask — let in-flight iterations finish
+        AppLogger.shared.info("Monitoring paused by user — in-flight tasks will complete")
+    }
+
+    /// Resume monitoring — restarts file watcher and event loop.
+    func resumeMonitoring() async {
+        appState.monitoringState = .idle
+        await startMonitoring()
+        updateMonitoringState()
+        AppLogger.shared.info("Monitoring resumed by user")
     }
 
     /// Called when the monitoring toggle changes.
     /// Starts or stops the FileWatcher accordingly.
     func toggleMonitoring(_ isEnabled: Bool) async {
         if isEnabled {
-            appState.monitoringState = .idle
-            AppLogger.shared.info("Monitoring enabled by user")
-            await startMonitoring()
+            await resumeMonitoring()
         } else {
-            AppLogger.shared.info("Monitoring disabled by user")
-            stopMonitoring()
-            appState.monitoringState = .paused
+            pauseMonitoring()
         }
     }
 

@@ -1,10 +1,50 @@
 import SwiftUI
+import ServiceManagement
 
-/// Menu bar dropdown with status, monitoring controls, and warnings.
+/// Menu bar dropdown with status, monitoring controls, settings, and app actions.
 struct MenuBarView: View {
     @Environment(AppCoordinator.self) private var coordinator
 
-    /// Color for the status indicator dot.
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            // — Status —
+            statusSection
+
+            Divider()
+
+            // — Monitoring —
+            monitoringSection
+
+            Divider()
+
+            // — Settings (placeholder for 05-03) —
+            settingsSection
+
+            Divider()
+
+            // — App —
+            appSection
+        }
+        .padding(16)
+        .frame(width: 300)
+        .task {
+            await coordinator.start()
+        }
+    }
+
+    // MARK: - Status Section
+
+    @ViewBuilder
+    private var statusSection: some View {
+        HStack(spacing: 6) {
+            Circle()
+                .fill(statusColor)
+                .frame(width: 8, height: 8)
+            Text(coordinator.appState.monitoringState.statusText)
+                .font(.headline)
+        }
+    }
+
     private var statusColor: Color {
         switch coordinator.appState.monitoringState {
         case .idle: return .green
@@ -14,65 +54,116 @@ struct MenuBarView: View {
         }
     }
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(statusColor)
-                    .frame(width: 8, height: 8)
-                Text(coordinator.appState.monitoringState.statusText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+    // MARK: - Monitoring Section
 
-            Button(coordinator.appState.monitoringState == .paused ? "Resume Monitoring" : "Pause Monitoring") {
+    @ViewBuilder
+    private var monitoringSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Monitoring")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+
+            Button(pauseResumeLabel) {
                 Task {
                     if case .paused = coordinator.appState.monitoringState {
-                        await coordinator.toggleMonitoring(true)
+                        await coordinator.resumeMonitoring()
                     } else {
-                        await coordinator.toggleMonitoring(false)
+                        coordinator.pauseMonitoring()
                     }
                 }
             }
 
             if !coordinator.appState.ffmpegAvailable {
-                Divider()
                 VStack(alignment: .leading, spacing: 4) {
                     Label("ffmpeg not found", systemImage: "exclamationmark.triangle.fill")
                         .foregroundStyle(.orange)
-                    Text("Install via: brew install ffmpeg")
                         .font(.caption)
+                    Text("Install via: brew install ffmpeg")
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                     Text("Audio files will be moved without conversion.")
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
             }
 
             if !coordinator.appState.openaiApiKeyConfigured {
-                Divider()
                 VStack(alignment: .leading, spacing: 4) {
                     Label("OpenAI API key not configured", systemImage: "exclamationmark.triangle.fill")
                         .foregroundStyle(.orange)
-                    Text("Add your API key to config.json (pdf.openaiApiKey).")
                         .font(.caption)
+                    Text("Add your API key to config.json (pdf.openaiApiKey).")
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                     Text("PDF classification is paused until configured.")
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
             }
+        }
+    }
 
-            Divider()
+    private var pauseResumeLabel: String {
+        if case .paused = coordinator.appState.monitoringState {
+            return "Resume Monitoring"
+        }
+        return "Pause Monitoring"
+    }
+
+    // MARK: - Settings Section (placeholder)
+
+    @ViewBuilder
+    private var settingsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Settings")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+
+            Text("No configurable settings yet")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+        }
+    }
+
+    // MARK: - App Section
+
+    @ViewBuilder
+    private var appSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("App")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .textCase(.uppercase)
+
+            Toggle("Launch at Login", isOn: launchAtLoginBinding)
+                .toggleStyle(.switch)
 
             Button("Quit Oh My Claw") {
                 NSApplication.shared.terminate(nil)
             }
         }
-        .padding(16)
-        .frame(width: 300)
-        .task {
-            await coordinator.start()
-        }
+    }
+
+    private var launchAtLoginBinding: Binding<Bool> {
+        Binding(
+            get: {
+                SMAppService.mainApp.status == .enabled
+            },
+            set: { newValue in
+                do {
+                    if newValue {
+                        try SMAppService.mainApp.register()
+                    } else {
+                        try SMAppService.mainApp.unregister()
+                    }
+                } catch {
+                    AppLogger.shared.error("Launch at Login toggle failed",
+                        context: ["action": newValue ? "register" : "unregister",
+                                  "error": error.localizedDescription])
+                }
+            }
+        )
     }
 }
