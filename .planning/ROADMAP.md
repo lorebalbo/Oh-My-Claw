@@ -62,7 +62,7 @@ Plans:
 
 Plans:
 - [x] 03-01: ffmpeg service & conversion pool — FFmpegLocator path detection, FFmpegConverter async Process wrapper, ConversionPool actor
-- [ ] 03-02: Quality models & metadata extension — QualityTier/AudioFormat enums, tier resolution, AudioMetadata format+bitrate via AVFoundation
+- [x] 03-02: Quality models & metadata extension — QualityTier/AudioFormat enums, tier resolution, AudioMetadata format+bitrate via AVFoundation
 - [ ] 03-03: Audio pipeline integration — CSVWriter, AudioTask quality branching, AppCoordinator ffmpeg wiring, MenuBarView guidance, unit tests
 
 ---

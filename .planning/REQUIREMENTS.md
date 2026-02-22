@@ -29,7 +29,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AUD-04**: App detects duplicate audio files by matching title+artist metadata against existing files in ~/Music (cross-format)
 - [x] **AUD-05**: Duplicate audio files in Downloads are deleted
 - [x] **AUD-06**: Qualifying audio files are moved to ~/Music
-- [ ] **AUD-07**: Audio format quality is evaluated against configurable ranking (WAV > FLAC > ALAC > AIFF > MP3 320 > AAC 256 > MP3 128)
+- [x] **AUD-07**: Audio format quality is evaluated against configurable ranking (WAV > FLAC > ALAC > AIFF > MP3 320 > AAC 256 > MP3 128)
 - [x] **AUD-08**: Files at or above the ranking cutoff are converted to AIFF 16-bit via ffmpeg
 - [x] **AUD-09**: Conversions run in parallel matching CPU core count
 - [ ] **AUD-10**: Files below the ranking cutoff or not in the ranking are moved to ~/Music/low_quality
