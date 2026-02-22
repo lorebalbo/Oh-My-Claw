@@ -3,14 +3,18 @@ import UserNotifications
 
 /// Wrapper around UNUserNotificationCenter for posting macOS notifications.
 /// Used for: config validation errors, disappeared files, processing errors.
-final class NotificationManager: Sendable {
+/// Conforms to UNUserNotificationCenterDelegate so banners display even when the app is in the foreground.
+final class NotificationManager: NSObject, Sendable, UNUserNotificationCenterDelegate {
     static let shared = NotificationManager()
 
     private let center = UNUserNotificationCenter.current()
 
-    init() {
+    override init() {
+        super.init()
+        // Set delegate for foreground banner display
+        center.delegate = self
         // Request notification permissions at initialization
-        Task {
+        Task { [center] in
             try? await center.requestAuthorization(options: [.alert, .sound])
         }
     }
@@ -59,5 +63,28 @@ final class NotificationManager: Sendable {
             body: "File '\(filename)' was removed before processing could complete.",
             identifier: "file-disappeared-\(filename)"
         )
+    }
+
+    /// Notify the user that config was successfully reloaded.
+    func notifyConfigReloaded() {
+        notify(
+            title: "Oh My Claw",
+            body: "Configuration reloaded successfully.",
+            identifier: "config-reloaded"
+        )
+    }
+}
+
+// MARK: - UNUserNotificationCenterDelegate
+
+extension NotificationManager {
+    /// Allow notifications to display as banners even when the app is in the foreground.
+    /// Without this, macOS suppresses banners for the frontmost app.
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound])
     }
 }
