@@ -18,6 +18,7 @@
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* MusicLibraryIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */; };
 		D2E3F4A5B6C7D8E9F0A1B2C3 /* ConversionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F4A5B6C7D8E9F0A1B2C3D4 /* ConversionPool.swift */; };
 		E1F2A3B4C5D6E7F8A9B0C1D2 /* FFmpegService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A3B4C5D6E7F8A9B0C1D2E3 /* FFmpegService.swift */; };
+		5B6C7D8E9F0A1B2C3D4E5F6A /* QualityEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B6C7D8E9F0A1B2C3D4E5F /* QualityEvaluator.swift */; };
 		C3D4E5F6A7B8C9D0E1F2A3B4 /* AudioTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */; };
 		7D16880B97865F88339C5A45 /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */; };
 		89B3793E969987CE5ED51656 /* ConfigStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */; };
@@ -66,6 +67,7 @@
 		B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryIndex.swift; sourceTree = "<group>"; };
 		E3F4A5B6C7D8E9F0A1B2C3D4 /* ConversionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionPool.swift; sourceTree = "<group>"; };
 		D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetadataReader.swift; sourceTree = "<group>"; };
+		4A5B6C7D8E9F0A1B2C3D4E5F /* QualityEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualityEvaluator.swift; sourceTree = "<group>"; };
 		F2A3B4C5D6E7F8A9B0C1D2E3 /* FFmpegService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFmpegService.swift; sourceTree = "<group>"; };
 		D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTask.swift; sourceTree = "<group>"; };
 		EF11E1AFB4ADC712CFD6F768 /* OhMyClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhMyClawApp.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				E3F4A5B6C7D8E9F0A1B2C3D4 /* ConversionPool.swift */,
 				F2A3B4C5D6E7F8A9B0C1D2E3 /* FFmpegService.swift */,
 				B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */,
+				4A5B6C7D8E9F0A1B2C3D4E5F /* QualityEvaluator.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				EEEB82DA25362EE5C3A962C8 /* FileTask.swift in Sources */,
 				D2E3F4A5B6C7D8E9F0A1B2C3 /* ConversionPool.swift in Sources */,
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* FFmpegService.swift in Sources */,
+				5B6C7D8E9F0A1B2C3D4E5F6A /* QualityEvaluator.swift in Sources */,
 				43868A2B4ED3A82C02371081 /* FileWatcher.swift in Sources */,
 				C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */,
 				8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */,
