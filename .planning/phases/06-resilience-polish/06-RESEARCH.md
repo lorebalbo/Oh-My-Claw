@@ -91,10 +91,10 @@ An `ErrorCollector` actor collects errors, batches rapid ones, and enforces per-
 actor ErrorCollector {
     /// Errors buffered within the current batching window, grouped by category.
     private var pendingErrors: [ErrorCategory: [ErrorInfo]] = [:]
-    
+
     /// Timestamp of last notification per category (for cooldown).
     private var lastNotified: [ErrorCategory: Date] = [:]
-    
+
     /// Active batching timers per category.
     private var batchTimers: [ErrorCategory: Task<Void, Never>] = [:]
 
@@ -194,7 +194,7 @@ final class ConfigFileWatcher {
         source.setEventHandler { [weak self] in
             guard let self else { return }
             let flags = source.data
-            
+
             if flags.contains(.delete) || flags.contains(.rename) {
                 // File was replaced (atomic save). Re-open the new file.
                 self.restart(onChange: onChange)
@@ -334,14 +334,14 @@ Since the codebase uses Swift concurrency throughout, use the `notifications(nam
 func observeSleepWake() {
     Task { @MainActor in
         let center = NSWorkspace.shared.notificationCenter
-        
+
         // Will Sleep
         Task {
             for await _ in center.notifications(named: NSWorkspace.willSleepNotification) {
                 await handleWillSleep()
             }
         }
-        
+
         // Did Wake
         Task {
             for await _ in center.notifications(named: NSWorkspace.didWakeNotification) {
@@ -364,18 +364,18 @@ When the system sleeps, in-flight ffmpeg processes may be killed (SIGKILL or SIG
 ```swift
 func handleWillSleep() async {
     AppLogger.shared.info("System will sleep — tearing down watchers")
-    
+
     // Cancel event loop (stops processing new events)
     eventLoopTask?.cancel()
     eventLoopTask = nil
-    
+
     // Stop FSEvents stream
     fileWatcher?.stop()
     fileWatcher = nil
-    
+
     // Stop config file watcher
     configFileWatcher?.stop()
-    
+
     // Note: in-flight ffmpeg processes will be killed by the OS on sleep.
     // Their temp files remain in /tmp — macOS cleans these periodically.
     // Source files are still in ~/Downloads, so they'll be re-detected on wake.
@@ -394,13 +394,13 @@ On wake, restore all monitoring:
 ```swift
 func handleDidWake() async {
     AppLogger.shared.info("System woke — re-establishing monitoring")
-    
+
     // Clean up any orphaned temp files from interrupted conversions
     cleanupInterruptedConversions()
-    
+
     // Only restart if monitoring was enabled before sleep
     guard appState.isMonitoring else { return }
-    
+
     // Restart everything
     await startMonitoring()        // re-creates FileWatcher + event loop + scans existing files
     startConfigFileWatcher()       // re-creates config file watcher
@@ -423,11 +423,11 @@ The current `FFmpegConverter.convert()` creates a `Process` locally inside the f
    ```swift
    actor ConversionPool {
        private var runningProcesses: [UUID: Process] = [:]
-       
+
        func register(id: UUID, process: Process) {
            runningProcesses[id] = process
        }
-       
+
        func terminateAll() {
            for (_, process) in runningProcesses {
                if process.isRunning { process.terminate() }

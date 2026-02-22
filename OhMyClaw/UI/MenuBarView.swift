@@ -1,21 +1,39 @@
 import SwiftUI
 
-/// Minimal menu bar dropdown for Phase 1.
-/// Contains only: monitoring toggle (switch-style) + Quit button.
+/// Menu bar dropdown with status, monitoring controls, and warnings.
 struct MenuBarView: View {
     @Environment(AppCoordinator.self) private var coordinator
 
+    /// Color for the status indicator dot.
+    private var statusColor: Color {
+        switch coordinator.appState.monitoringState {
+        case .idle: return .green
+        case .processing: return .blue
+        case .paused: return .gray
+        case .error: return .red
+        }
+    }
+
     var body: some View {
-        @Bindable var coordinator = coordinator
         VStack(alignment: .leading, spacing: 12) {
-            Toggle("Monitoring", isOn: $coordinator.appState.isMonitoring)
-                .toggleStyle(.switch)
-                .tint(.green)
-                .onChange(of: coordinator.appState.isMonitoring) { _, newValue in
-                    Task {
-                        await coordinator.toggleMonitoring(newValue)
+            HStack(spacing: 6) {
+                Circle()
+                    .fill(statusColor)
+                    .frame(width: 8, height: 8)
+                Text(coordinator.appState.monitoringState.statusText)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Button(coordinator.appState.monitoringState == .paused ? "Resume Monitoring" : "Pause Monitoring") {
+                Task {
+                    if case .paused = coordinator.appState.monitoringState {
+                        await coordinator.toggleMonitoring(true)
+                    } else {
+                        await coordinator.toggleMonitoring(false)
                     }
                 }
+            }
 
             if !coordinator.appState.ffmpegAvailable {
                 Divider()
@@ -52,7 +70,7 @@ struct MenuBarView: View {
             }
         }
         .padding(16)
-        .frame(width: 220)
+        .frame(width: 300)
         .task {
             await coordinator.start()
         }

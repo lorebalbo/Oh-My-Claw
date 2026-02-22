@@ -29,6 +29,7 @@
 		7D16880B97865F88339C5A45 /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */; };
 		89B3793E969987CE5ED51656 /* ConfigStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */; };
 		8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */; };
+		A1C2D3E4F5A6B7C8D9E0F1A2 /* IconAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5A6B7C8D9E0F1A2 /* IconAnimator.swift */; };
 		935DB3EB23A25DDD05D71FAE /* OhMyClawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF11E1AFB4ADC712CFD6F768 /* OhMyClawApp.swift */; };
 		C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86C1C2B3F759DA4066EB80 /* Logger.swift */; };
 		D38234D187F03F21CE77056E /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D592ACA5F5720452E11EF7D /* AppCoordinator.swift */; };
@@ -75,6 +76,7 @@
 		A788B7DCA90F98F9A2EAA76A /* OhMyClaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyClaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcherTests.swift; sourceTree = "<group>"; };
 		B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		B1C2D3E4F5A6B7C8D9E0F1A2 /* IconAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAnimator.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryIndex.swift; sourceTree = "<group>"; };
 		E3F4A5B6C7D8E9F0A1B2C3D4 /* ConversionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionPool.swift; sourceTree = "<group>"; };
 		D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetadataReader.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		2C4340EE85BB5A0E9F2CF189 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				B1C2D3E4F5A6B7C8D9E0F1A2 /* IconAnimator.swift */,
 				B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */,
 			);
 			path = UI;
@@ -337,6 +340,7 @@
 				5B6C7D8E9F0A1B2C3D4E5F6A /* QualityEvaluator.swift in Sources */,
 				43868A2B4ED3A82C02371081 /* FileWatcher.swift in Sources */,
 				C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */,
+				A1C2D3E4F5A6B7C8D9E0F1A2 /* IconAnimator.swift in Sources */,
 				8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */,
 				EB3C0D0E0DE5DE9D92171A57 /* NotificationManager.swift in Sources */,
 				935DB3EB23A25DDD05D71FAE /* OhMyClawApp.swift in Sources */,

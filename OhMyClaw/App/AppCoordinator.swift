@@ -14,6 +14,7 @@ import SwiftUI
 @Observable
 final class AppCoordinator {
     var appState = AppState()
+    private(set) var iconAnimator = IconAnimator()
     private var configStore: ConfigStore?
     private var fileWatcher: FileWatcher?
     private var eventLoopTask: Task<Void, Never>?
@@ -123,7 +124,7 @@ final class AppCoordinator {
             context: ["enabled": "\(pdfConfig.enabled)"])
 
         // 9. Start file watcher if monitoring is enabled (defaults to true)
-        if appState.isMonitoring {
+        if appState.monitoringState != .paused {
             await startMonitoring()
         }
     }
@@ -170,6 +171,14 @@ final class AppCoordinator {
                         "size": "\(fileURL.fileSize ?? 0) bytes"
                     ])
 
+                // Track processing count
+                self.appState.processingCount += 1
+                self.onProcessingCountChanged()
+                defer {
+                    self.appState.processingCount -= 1
+                    self.onProcessingCountChanged()
+                }
+
                 // Route through registered tasks
                 var handled = false
                 for task in self.tasks where task.isEnabled && task.canHandle(file: fileURL) {
@@ -192,6 +201,7 @@ final class AppCoordinator {
                         handled = true
                         break
                     } catch {
+                        self.appState.lastError = error.localizedDescription
                         AppLogger.shared.error("Task failed",
                             context: ["file": fileURL.lastPathComponent, "task": task.id, "error": error.localizedDescription])
                     }
@@ -201,6 +211,8 @@ final class AppCoordinator {
                     AppLogger.shared.debug("No task handled file",
                         context: ["file": fileURL.lastPathComponent])
                 }
+
+                self.updateMonitoringState()
             }
         }
     }
@@ -217,13 +229,36 @@ final class AppCoordinator {
     /// Called when the monitoring toggle changes.
     /// Starts or stops the FileWatcher accordingly.
     func toggleMonitoring(_ isEnabled: Bool) async {
-        appState.isMonitoring = isEnabled
         if isEnabled {
+            appState.monitoringState = .idle
             AppLogger.shared.info("Monitoring enabled by user")
             await startMonitoring()
         } else {
             AppLogger.shared.info("Monitoring disabled by user")
             stopMonitoring()
+            appState.monitoringState = .paused
+        }
+    }
+
+    /// Update icon animator based on current processing count.
+    private func onProcessingCountChanged() {
+        if appState.processingCount > 0 && iconAnimator.currentFrame == 0 {
+            iconAnimator.startAnimating()
+        } else if appState.processingCount <= 0 {
+            iconAnimator.stopAnimating()
+        }
+        appState.animatedIconName = iconAnimator.currentIconName
+    }
+
+    /// Derive monitoringState from current processing count and error state.
+    private func updateMonitoringState() {
+        if case .paused = appState.monitoringState { return }
+        if let error = appState.lastError {
+            appState.monitoringState = .error(message: error)
+        } else if appState.processingCount > 0 {
+            appState.monitoringState = .processing(count: appState.processingCount)
+        } else {
+            appState.monitoringState = .idle
         }
     }
 
