@@ -21,6 +21,7 @@ final class AppCoordinator {
     private var isStarted = false
     private var musicLibraryIndex: MusicLibraryIndex?
     private var tasks: [any FileTask] = []
+    private let errorCollector = ErrorCollector()
 
     /// Start all services. Called once from the UI on app launch.
     func start() async {
@@ -160,7 +161,11 @@ final class AppCoordinator {
                     let filename = fileURL.lastPathComponent
                     AppLogger.shared.warn("File disappeared before processing",
                         context: ["file": filename])
-                    NotificationManager.shared.notifyFileDisappeared(filename: filename)
+                    await self.errorCollector.report(
+                        category: .fileDisappeared,
+                        file: filename,
+                        message: "File was removed before processing could complete"
+                    )
                     continue
                 }
 
@@ -197,6 +202,11 @@ final class AppCoordinator {
                         case .error(let description):
                             AppLogger.shared.error("Processing error",
                                 context: ["file": fileURL.lastPathComponent, "task": task.id, "error": description])
+                            await self.errorCollector.report(
+                                category: self.errorCategory(for: task.id),
+                                file: fileURL.lastPathComponent,
+                                message: description
+                            )
                         }
                         handled = true
                         break
@@ -204,6 +214,11 @@ final class AppCoordinator {
                         self.appState.lastError = error.localizedDescription
                         AppLogger.shared.error("Task failed",
                             context: ["file": fileURL.lastPathComponent, "task": task.id, "error": error.localizedDescription])
+                        await self.errorCollector.report(
+                            category: self.errorCategory(for: task.id),
+                            file: fileURL.lastPathComponent,
+                            message: error.localizedDescription
+                        )
                     }
                 }
 
@@ -211,8 +226,6 @@ final class AppCoordinator {
                     AppLogger.shared.debug("No task handled file",
                         context: ["file": fileURL.lastPathComponent])
                 }
-
-                self.updateMonitoringState()
             }
         }
     }
@@ -254,7 +267,7 @@ final class AppCoordinator {
         }
     }
 
-    /// Update icon animator based on current processing count.
+    /// Update icon animator and monitoring state based on current processing count.
     private func onProcessingCountChanged() {
         if appState.processingCount > 0 && iconAnimator.currentFrame == 0 {
             iconAnimator.startAnimating()
@@ -262,6 +275,19 @@ final class AppCoordinator {
             iconAnimator.stopAnimating()
         }
         appState.animatedIconName = iconAnimator.currentIconName
+        updateMonitoringState()
+    }
+
+    /// Map a FileTask's id to an ErrorCategory for error notification routing.
+    private func errorCategory(for taskId: String) -> ErrorCategory {
+        switch taskId {
+        case "audio":
+            return .audioConversion
+        case "pdf":
+            return .pdfClassification
+        default:
+            return .general
+        }
     }
 
     /// Derive monitoringState from current processing count and error state.
