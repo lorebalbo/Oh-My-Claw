@@ -34,6 +34,7 @@
 		C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86C1C2B3F759DA4066EB80 /* Logger.swift */; };
 		D38234D187F03F21CE77056E /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D592ACA5F5720452E11EF7D /* AppCoordinator.swift */; };
 		EB3C0D0E0DE5DE9D92171A57 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F53666C84CCF8ED494B93 /* NotificationManager.swift */; };
+		EC4D1F0A1B2C3D4E5F6A7B8C /* ErrorCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D1F0A1B2C3D4E5F6A7B8D /* ErrorCollector.swift */; };
 		EEEB82DA25362EE5C3A962C8 /* FileTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A0A8D0B5D15FF5148D1AEF /* FileTask.swift */; };
 		F1D0F5B176B2404EAE677D3A /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336BD3F43A331D9696DD96D3 /* AppConfig.swift */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		9D0E1F2A3B4C5D6E7F8A9B0C /* AudioConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioConversionTests.swift; sourceTree = "<group>"; };
 		4662BA4193CFA7E876357AF2 /* OhMyClawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OhMyClawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		497F53666C84CCF8ED494B93 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		EC4D1F0A1B2C3D4E5F6A7B8D /* ErrorCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCollector.swift; sourceTree = "<group>"; };
 		4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStore.swift; sourceTree = "<group>"; };
 		52A0A8D0B5D15FF5148D1AEF /* FileTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTask.swift; sourceTree = "<group>"; };
 		5BBD3DD97BC5E5797A48AE2D /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				3080935EEBE25E79E94B6A54 /* Extensions */,
+				EC4D1F0A1B2C3D4E5F6A7B8D /* ErrorCollector.swift */,
 				EF86C1C2B3F759DA4066EB80 /* Logger.swift */,
 				497F53666C84CCF8ED494B93 /* NotificationManager.swift */,
 			);
@@ -342,6 +345,7 @@
 				C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */,
 				A1C2D3E4F5A6B7C8D9E0F1A2 /* IconAnimator.swift in Sources */,
 				8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */,
+				EC4D1F0A1B2C3D4E5F6A7B8C /* ErrorCollector.swift in Sources */,
 				EB3C0D0E0DE5DE9D92171A57 /* NotificationManager.swift in Sources */,
 				935DB3EB23A25DDD05D71FAE /* OhMyClawApp.swift in Sources */,
 				2B3C4D5E6F7A8B9C0D1E2F3A /* PDFFileIdentifier.swift in Sources */,
