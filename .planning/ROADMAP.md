@@ -43,7 +43,7 @@ Plans:
   4. When a file with the same title+artist already exists in ~/Music (regardless of format), the incoming duplicate in ~/Downloads is deleted
 
 Plans:
-- [ ] 02-01: Audio file identification (UTType) and metadata reading (AVFoundation async API)
+- [x] 02-01: Audio file identification (UTType) and metadata reading (AVFoundation async API)
 - [ ] 02-02: Music library index actor, AudioTask pipeline (validate → filter → deduplicate → move)
 - [ ] 02-03: AppCoordinator integration (index build, event routing) and unit tests
 
@@ -120,7 +120,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
 | 1. App Foundation & File Watching | 0/4 | Complete    | 2026-02-21 |
-| 2. Audio Detection & Organization | 0/3 | Not started | - |
+| 2. Audio Detection & Organization | 1/3 | In progress | - |
 | 3. Audio Conversion & Quality | 0/3 | Not started | - |
 | 4. PDF Classification | 0/2 | Not started | - |
 | 5. Menu Bar Controls & Configuration | 0/3 | Not started | - |
