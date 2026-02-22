@@ -68,11 +68,13 @@ struct AudioConfig: Codable, Equatable, Sendable {
 struct PDFConfig: Codable, Equatable, Sendable {
     var enabled: Bool
     var lmStudioPort: Int
+    var modelName: String
     var destinationPath: String
 
     static let defaults = PDFConfig(
         enabled: true,
         lmStudioPort: 1234,
+        modelName: "",
         destinationPath: "~/Documents/Papers"
     )
 }
