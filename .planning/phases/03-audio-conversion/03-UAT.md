@@ -59,9 +59,11 @@ skipped: 1
 ## Gaps
 
 - truth: "High-quality non-AIFF files are converted to AIFF 16-bit via ffmpeg and placed in ~/Music"
-  status: failed
-  reason: "User reported: FLAC file was moved to ~/Music without conversion. Logs show 'Audio moved to ~/Music' with no conversion step — the quality evaluation and ffmpeg conversion branch is not being triggered."
+  status: diagnosed
+  reason: "User reported: FLAC file was moved to ~/Music without conversion. Logs show action 'Moved to ~/Music' — this action string only exists in the old Phase 2 code (replaced in commit afa2ed2). The running binary is stale and does not include Phase 3 changes."
   severity: major
   test: 2
-  artifacts: []
+  root_cause: "Stale binary — user is running a build from before Phase 3 code changes. The old AudioTask had `return .processed(action: \"Moved to ~/Music\")` which was replaced with quality-based branching. Clean rebuild + relaunch required."
+  fix: "No code fix needed. User must clean build (Product → Clean Build Folder or `xcodebuild clean`) and relaunch the app."
+  artifacts: [OhMyClaw/Audio/AudioTask.swift]
   missing: []

@@ -31,15 +31,15 @@ struct MenuBarView: View {
                 }
             }
 
-            if !coordinator.appState.lmStudioAvailable {
+            if !coordinator.appState.openaiApiKeyConfigured {
                 Divider()
                 VStack(alignment: .leading, spacing: 4) {
-                    Label("LM Studio not reachable", systemImage: "exclamationmark.triangle.fill")
+                    Label("OpenAI API key not configured", systemImage: "exclamationmark.triangle.fill")
                         .foregroundStyle(.orange)
-                    Text("Ensure LM Studio is running with a model loaded.")
+                    Text("Add your API key to config.json (pdf.openaiApiKey).")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Text("PDF classification is paused until available.")
+                    Text("PDF classification is paused until configured.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

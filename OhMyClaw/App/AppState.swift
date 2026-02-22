@@ -12,7 +12,7 @@ final class AppState {
     /// Checked once at launch; defaults to true until verified.
     var ffmpegAvailable: Bool = true
 
-    /// Whether LM Studio is reachable for PDF classification.
-    /// Updated at launch and by background health polling.
-    var lmStudioAvailable: Bool = true
+    /// Whether the OpenAI API key is configured for PDF classification.
+    /// Checked at launch by validating pdf.openaiApiKey is non-empty.
+    var openaiApiKeyConfigured: Bool = true
 }

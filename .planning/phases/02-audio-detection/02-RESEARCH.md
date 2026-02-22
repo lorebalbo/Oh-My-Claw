@@ -113,36 +113,36 @@ struct AudioTask: FileTask {
     let id = "audio"
     let displayName = "Audio Detection"
     let isEnabled: Bool
-    
+
     private let identifier: AudioFileIdentifier
     private let metadataReader: AudioMetadataReader
     private let libraryIndex: MusicLibraryIndex
     private let config: AudioConfig
-    
+
     func canHandle(file: URL) -> Bool {
         identifier.isRecognizedAudioFile(file)
     }
-    
+
     func process(file: URL) async throws -> TaskResult {
         // 1. Read metadata
         let metadata = try await metadataReader.read(from: file)
-        
+
         // 2. Validate required fields
         guard metadata.hasRequiredFields(config.requiredMetadataFields) else {
             return .skipped(reason: "Missing metadata: ...")
         }
-        
+
         // 3. Check duration
         guard metadata.durationSeconds >= Double(config.minDurationSeconds) else {
             return .skipped(reason: "Duration too short: ...")
         }
-        
+
         // 4. Check duplicates
         if await libraryIndex.contains(title: metadata.title, artist: metadata.artist) {
             try FileManager.default.removeItem(at: file)
             return .duplicate(title: metadata.title, artist: metadata.artist)
         }
-        
+
         // 5. Move to ~/Music
         let destination = // resolve destination
         try FileManager.default.moveItem(at: file, to: destination)
@@ -159,19 +159,19 @@ struct AudioTask: FileTask {
 ```swift
 actor MusicLibraryIndex {
     private var index: [String: URL] = [:]
-    
+
     func build(from directory: URL, metadataReader: AudioMetadataReader) async {
         // Recursively find audio files, read metadata, populate index
     }
-    
+
     func contains(title: String, artist: String) -> Bool {
         index[normalizeKey(title: title, artist: artist)] != nil
     }
-    
+
     func add(title: String, artist: String, url: URL) {
         index[normalizeKey(title: title, artist: artist)] = url
     }
-    
+
     private func normalizeKey(title: String, artist: String) -> String {
         let t = title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let a = artist.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -191,7 +191,7 @@ struct AudioFileIdentifier {
     static let supportedExtensions: Set<String> = [
         "mp3", "m4a", "aac", "flac", "wav", "aiff", "aif"
     ]
-    
+
     func isRecognizedAudioFile(_ url: URL) -> Bool {
         let ext = url.pathExtension.lowercased()
         guard Self.supportedExtensions.contains(ext) else { return false }
@@ -298,33 +298,33 @@ struct AudioMetadata {
 struct AudioMetadataReader {
     func read(from url: URL) async throws -> AudioMetadata {
         let asset = AVURLAsset(url: url)
-        
+
         // Load duration and metadata in a single async call
         let (duration, metadataItems) = try await asset.load(.duration, .metadata)
-        
+
         let durationSeconds = CMTimeGetSeconds(duration)
-        
+
         // Extract common metadata fields
         let title = AVMetadataItem.metadataItems(
             from: metadataItems,
             filteredByIdentifier: .commonIdentifierTitle
         ).first
-        
+
         let artist = AVMetadataItem.metadataItems(
             from: metadataItems,
             filteredByIdentifier: .commonIdentifierArtist
         ).first
-        
+
         let album = AVMetadataItem.metadataItems(
             from: metadataItems,
             filteredByIdentifier: .commonIdentifierAlbumName
         ).first
-        
+
         // Load string values (also async since macOS 12)
         let titleString = try? await title?.load(.stringValue)
         let artistString = try? await artist?.load(.stringValue)
         let albumString = try? await album?.load(.stringValue)
-        
+
         return AudioMetadata(
             title: titleString?.nonEmptyTrimmed,
             artist: artistString?.nonEmptyTrimmed,
@@ -354,17 +354,17 @@ struct AudioFileIdentifier {
     static let supportedExtensions: Set<String> = [
         "mp3", "m4a", "aac", "flac", "wav", "aiff", "aif"
     ]
-    
+
     func isRecognizedAudioFile(_ url: URL) -> Bool {
         let ext = url.pathExtension.lowercased()
-        
+
         // Step 1: Extension must be in recognized set
         guard Self.supportedExtensions.contains(ext) else { return false }
-        
+
         // Step 2: System must recognize extension as audio (MIME type agreement)
         guard let uttype = UTType(filenameExtension: ext),
               uttype.conforms(to: .audio) else { return false }
-        
+
         return true
     }
 }
@@ -386,7 +386,7 @@ struct AudioFileIdentifier {
 ```swift
 func moveToMusic(file: URL, musicDirectory: URL) throws {
     let destination = musicDirectory.appendingPathComponent(file.lastPathComponent)
-    
+
     if FileManager.default.fileExists(atPath: destination.path) {
         // Filename conflict — not a metadata duplicate (already checked)
         // Move to possible_duplicate/ subdirectory
@@ -410,7 +410,7 @@ func build(from musicDirectory: URL) async {
         includingPropertiesForKeys: [.isRegularFileKey],
         options: [.skipsHiddenFiles]
     ) else { return }
-    
+
     // Collect all audio file URLs first
     var audioFiles: [URL] = []
     let identifier = AudioFileIdentifier()
@@ -419,13 +419,13 @@ func build(from musicDirectory: URL) async {
             audioFiles.append(fileURL)
         }
     }
-    
+
     // Read metadata in parallel with bounded concurrency
     let reader = AudioMetadataReader()
     await withTaskGroup(of: (String, URL)?.self) { group in
         let maxConcurrency = 8
         var submitted = 0
-        
+
         for fileURL in audioFiles {
             if submitted >= maxConcurrency {
                 // Wait for one to finish before submitting more
@@ -433,7 +433,7 @@ func build(from musicDirectory: URL) async {
                     index[key] = url
                 }
             }
-            
+
             group.addTask {
                 guard let metadata = try? await reader.read(from: fileURL),
                       let title = metadata.title,
@@ -445,7 +445,7 @@ func build(from musicDirectory: URL) async {
             }
             submitted += 1
         }
-        
+
         // Collect remaining results
         for await result in group {
             if let (key, url) = result {

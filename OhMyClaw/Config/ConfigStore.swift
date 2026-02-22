@@ -91,10 +91,8 @@ final class ConfigStore {
             errors.append("audio.minDurationSeconds must be >= 0 (got \(config.audio.minDurationSeconds))")
         }
 
-        // PDF validation
-        if config.pdf.lmStudioPort < 1 || config.pdf.lmStudioPort > 65535 {
-            errors.append("pdf.lmStudioPort must be between 1 and 65535 (got \(config.pdf.lmStudioPort))")
-        }
+        // PDF validation — no port validation needed for OpenAI API
+        // API key is optional (empty means PDF classification is disabled)
 
         // Logging validation
         let validLevels = ["debug", "info", "warn", "error"]

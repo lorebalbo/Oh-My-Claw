@@ -1,11 +1,11 @@
 import Foundation
 
-// MARK: - LMStudioError
+// MARK: - OpenAIError
 
-/// Errors produced when communicating with the LM Studio API.
-enum LMStudioError: Error, Sendable {
-    /// LM Studio is not running or refused the connection.
-    case unreachable
+/// Errors produced when communicating with the OpenAI API.
+enum OpenAIError: Error, Sendable {
+    /// The API key is not configured (empty string).
+    case missingApiKey
     /// The server returned a non-200 HTTP status code.
     case badResponse(statusCode: Int)
     /// The response contained no choices or nil content.
@@ -47,64 +47,46 @@ struct ClassificationResult: Decodable, Sendable {
     let is_paper: Bool
 }
 
-// MARK: - LMStudioClient
+// MARK: - OpenAIClient
 
-/// HTTP client for the local LM Studio API.
+/// HTTP client for the OpenAI API.
 ///
-/// Provides health checking via GET /v1/models and binary
-/// scientific paper classification via POST /v1/chat/completions.
-struct LMStudioClient: Sendable {
-    let baseURL: URL
+/// Provides binary scientific paper classification via
+/// POST to https://api.openai.com/v1/chat/completions
+/// with Bearer token authentication.
+struct OpenAIClient: Sendable {
+    let apiKey: String
     let modelName: String
     let timeout: TimeInterval
 
-    /// Creates a client pointing at a local LM Studio instance.
+    private static let baseURL = URL(string: "https://api.openai.com/v1")!
+
+    /// Creates a client for the OpenAI API.
     ///
     /// - Parameters:
-    ///   - port: The port LM Studio is listening on (default 1234).
-    ///   - modelName: Model to use for classification. Empty string means
-    ///     "use whatever model is currently loaded".
+    ///   - apiKey: The OpenAI API key for authentication.
+    ///   - modelName: Model to use for classification (e.g. "gpt-4o").
     ///   - timeout: Request timeout in seconds for classification calls.
-    init(port: Int, modelName: String, timeout: TimeInterval = 30) {
-        self.baseURL = URL(string: "http://localhost:\(port)/v1")!
+    init(apiKey: String, modelName: String, timeout: TimeInterval = 60) {
+        self.apiKey = apiKey
         self.modelName = modelName
         self.timeout = timeout
-    }
-
-    // MARK: - Health Check
-
-    /// Quick check whether LM Studio is reachable.
-    ///
-    /// Sends GET /v1/models with a 5-second timeout.
-    /// Returns `true` if the server responds with HTTP 200.
-    func isAvailable() async -> Bool {
-        let url = baseURL.appendingPathComponent("models")
-        var request = URLRequest(url: url)
-        request.timeoutInterval = 5
-
-        do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse else {
-                return false
-            }
-            return httpResponse.statusCode == 200
-        } catch {
-            return false
-        }
     }
 
     // MARK: - Classification
 
     /// Classifies extracted PDF text as a scientific paper or not.
     ///
-    /// Sends the raw page text to the LM Studio chat completions endpoint
-    /// and parses the binary result.
+    /// Sends the full page text to the OpenAI chat completions endpoint
+    /// with Bearer token authentication and parses the binary result.
     ///
-    /// - Parameter text: Extracted PDF text content (first 10 pages).
+    /// - Parameter text: Extracted PDF text content.
     /// - Returns: `true` if the document is classified as a scientific paper.
-    /// - Throws: `LMStudioError` on connection, response, or parsing failures.
+    /// - Throws: `OpenAIError` on connection, response, or parsing failures.
     func classify(text: String) async throws -> Bool {
-        let url = baseURL.appendingPathComponent("chat/completions")
+        guard !apiKey.isEmpty else { throw OpenAIError.missingApiKey }
+
+        let url = Self.baseURL.appendingPathComponent("chat/completions")
 
         let systemPrompt = """
             You are a document classifier. Determine whether the following document \
@@ -140,6 +122,7 @@ struct LMStudioClient: Sendable {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.httpBody = bodyData
         request.timeoutInterval = timeout
 
@@ -148,24 +131,29 @@ struct LMStudioClient: Sendable {
         do {
             (data, response) = try await URLSession.shared.data(for: request)
         } catch {
-            throw LMStudioError.unreachable
+            throw OpenAIError.badResponse(statusCode: -1)
         }
 
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-            throw LMStudioError.badResponse(statusCode: statusCode)
+            let bodySnippet = String(data: data.prefix(512), encoding: .utf8) ?? "<non-utf8>"
+            AppLogger.shared.debug("OpenAI error response", context: [
+                "statusCode": "\(statusCode)",
+                "body": bodySnippet
+            ])
+            throw OpenAIError.badResponse(statusCode: statusCode)
         }
 
         let decoded: ChatCompletionResponse
         do {
             decoded = try JSONDecoder().decode(ChatCompletionResponse.self, from: data)
         } catch {
-            throw LMStudioError.decodingFailed(error.localizedDescription)
+            throw OpenAIError.decodingFailed(error.localizedDescription)
         }
 
         guard let content = decoded.choices.first?.message.content else {
-            throw LMStudioError.emptyResponse
+            throw OpenAIError.emptyResponse
         }
 
         return parseClassification(content)
@@ -180,12 +168,12 @@ struct LMStudioClient: Sendable {
     ///
     /// - Parameters:
     ///   - text: Extracted PDF text content.
-    ///   - client: The LM Studio client to use.
+    ///   - client: The OpenAI client to use.
     ///   - maxRetries: Maximum number of retry attempts (default 3, so 4 total).
     /// - Returns: Classification result, or `nil` if all attempts failed.
     static func classifyWithRetry(
         text: String,
-        client: LMStudioClient,
+        client: OpenAIClient,
         maxRetries: Int = 3
     ) async -> Bool? {
         let backoffSeconds: [UInt64] = [2, 4, 8]
@@ -227,11 +215,6 @@ struct LMStudioClient: Sendable {
 
         // Fallback: check for string patterns in JSON format
         if trimmed.contains("\"is_paper\": true") || trimmed.contains("\"is_paper\":true") {
-            return true
-        }
-
-        // Fallback: check for "Answer: Yes" format
-        if trimmed.contains("answer: yes") || trimmed.hasPrefix("yes") {
             return true
         }
 

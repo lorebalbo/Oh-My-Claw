@@ -17,7 +17,6 @@ final class AppCoordinator {
     private var configStore: ConfigStore?
     private var fileWatcher: FileWatcher?
     private var eventLoopTask: Task<Void, Never>?
-    private var healthPollingTask: Task<Void, Never>?
     private var isStarted = false
     private var musicLibraryIndex: MusicLibraryIndex?
     private var tasks: [any FileTask] = []
@@ -99,21 +98,20 @@ final class AppCoordinator {
 
         // 8. Configure PDF classification pipeline
         let pdfConfig = store.config.pdf
-        let lmStudioClient = LMStudioClient(port: pdfConfig.lmStudioPort, modelName: pdfConfig.modelName)
-        let lmStudioAvailable = await lmStudioClient.isAvailable()
-        appState.lmStudioAvailable = lmStudioAvailable
+        let openaiClient = OpenAIClient(apiKey: pdfConfig.openaiApiKey, modelName: pdfConfig.openaiModel)
+        let apiKeyConfigured = !pdfConfig.openaiApiKey.isEmpty
+        appState.openaiApiKeyConfigured = apiKeyConfigured
 
-        if lmStudioAvailable {
-            AppLogger.shared.info("LM Studio available", context: ["port": "\(pdfConfig.lmStudioPort)"])
+        if apiKeyConfigured {
+            AppLogger.shared.info("OpenAI API key configured", context: ["model": pdfConfig.openaiModel])
         } else {
-            AppLogger.shared.warn("LM Studio not reachable — PDF classification disabled. Ensure LM Studio is running on port \(pdfConfig.lmStudioPort)")
-            startHealthPolling(client: lmStudioClient)
+            AppLogger.shared.warn("OpenAI API key not configured — add your API key to config.json in the pdf.openaiApiKey field")
         }
 
         let pdfTask = PDFTask(
             identifier: PDFFileIdentifier(),
             textExtractor: PDFTextExtractor(),
-            client: lmStudioClient,
+            client: openaiClient,
             destinationPath: pdfConfig.destinationPath,
             isEnabled: pdfConfig.enabled
         )
@@ -209,8 +207,6 @@ final class AppCoordinator {
 
     /// Stop monitoring — cancel the event loop and stop the file watcher.
     private func stopMonitoring() {
-        healthPollingTask?.cancel()
-        healthPollingTask = nil
         eventLoopTask?.cancel()
         eventLoopTask = nil
         fileWatcher?.stop()
@@ -231,27 +227,4 @@ final class AppCoordinator {
         }
     }
 
-    // MARK: - Health Polling
-
-    /// Polls LM Studio availability every 60 seconds.
-    /// On recovery, updates state, logs, rescans ~/Downloads, then stops polling.
-    private func startHealthPolling(client: LMStudioClient) {
-        healthPollingTask = Task { [weak self] in
-            while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: 60 * 1_000_000_000)
-                guard !Task.isCancelled else { break }
-
-                let available = await client.isAvailable()
-                guard let self else { break }
-
-                self.appState.lmStudioAvailable = available
-
-                if available {
-                    AppLogger.shared.info("LM Studio is now available")
-                    await self.fileWatcher?.scanExistingFiles()
-                    break
-                }
-            }
-        }
-    }
 }

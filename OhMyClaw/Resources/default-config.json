@@ -13,8 +13,8 @@
   },
   "pdf": {
     "enabled": true,
-    "lmStudioPort": 1234,
-    "modelName": "",
+    "openaiApiKey": "",
+    "openaiModel": "gpt-4o",
     "destinationPath": "~/Documents/Papers"
   },
   "logging": {

@@ -23,9 +23,9 @@ struct PDFTextExtractor: Sendable {
     /// Extracts text and metadata from the PDF at the given URL.
     ///
     /// - Parameter url: File URL pointing to a PDF document.
-    /// - Returns: A tuple of cleaned text and metadata, or `nil` if the PDF
-    ///   is unreadable, password-protected, or contains no text layer.
-    func extract(from url: URL) -> (text: String, metadata: PDFMetadata)? {
+    /// - Returns: A tuple of cleaned text, metadata, and page count, or `nil`
+    ///   if the PDF is unreadable, password-protected, or contains no text layer.
+    func extract(from url: URL) -> (text: String, metadata: PDFMetadata, pageCount: Int)? {
         guard let document = PDFDocument(url: url) else {
             return nil
         }
@@ -62,7 +62,7 @@ struct PDFTextExtractor: Sendable {
             return nil
         }
 
-        return (text: cleaned, metadata: metadata)
+        return (text: cleaned, metadata: metadata, pageCount: document.pageCount)
     }
 
     // MARK: - Private

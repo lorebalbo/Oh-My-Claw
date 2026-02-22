@@ -21,7 +21,7 @@ tech-stack:
 key-files:
   created:
     - OhMyClaw/Audio/MusicLibraryIndex.swift
-    - OhMyClaw/Audio/AudioTask.swift  
+    - OhMyClaw/Audio/AudioTask.swift
   modified: []
 
 key-decisions:

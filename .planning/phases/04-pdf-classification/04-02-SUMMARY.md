@@ -2,25 +2,24 @@
 phase: 04-pdf-classification
 plan: "02"
 subsystem: pdf
-tags: [lm-studio, llm-classification, http-client, health-polling]
+tags: [openai-api, llm-classification, http-client]
 
 requires:
   - phase: 04-pdf-classification
     provides: "PDFFileIdentifier, PDFTextExtractor, PDFMetadata from plan 01"
 provides:
-  - "LMStudioClient for HTTP classification via local LM Studio"
+  - "OpenAIClient for HTTP classification via OpenAI API"
   - "PDFTask implementing full PDF classification pipeline"
-  - "LM Studio health polling with auto-recovery"
-  - "Menu bar guidance for LM Studio unavailability"
+  - "Menu bar guidance for missing OpenAI API key"
 affects: []
 
 tech-stack:
-  added: [URLSession-HTTP-client, LM-Studio-API]
-  patterns: [retry-with-exponential-backoff, health-polling-with-recovery, conservative-classification]
+  added: [URLSession-HTTP-client, OpenAI-API]
+  patterns: [retry-with-exponential-backoff, conservative-classification, minimum-page-filter]
 
 key-files:
   created:
-    - OhMyClaw/PDF/LMStudioClient.swift
+    - OhMyClaw/PDF/OpenAIClient.swift
     - OhMyClaw/PDF/PDFTask.swift
   modified:
     - OhMyClaw/Config/AppConfig.swift
@@ -30,15 +29,18 @@ key-files:
     - OhMyClaw/UI/MenuBarView.swift
 
 key-decisions:
-  - "Conservative classification parsing — only explicit JSON true triggers paper move; ambiguous responses default to false"
-  - "Empty modelName string means 'use whatever model is loaded' — no upfront model validation"
-  - "Health polling stops after first successful recovery to avoid unnecessary background work"
+  - "Conservative classification parsing - only explicit JSON true triggers paper move; ambiguous responses default to false"
+  - "OpenAI API key must be configured by user in config.json - no default key"
+  - "Default model is gpt-4o - configurable via pdf.openaiModel in config.json"
+  - "60s request timeout for cloud API (vs 30s for local)"
+  - "Single-page PDFs short-circuited before calling the LLM"
+  - "Duplicate papers deleted from Downloads instead of left in place"
   - "Move semantics (not copy) for paper routing to avoid duplicate disk usage"
 
 patterns-established:
-  - "HTTP client with retry and exponential backoff (2s/4s/8s) for external service calls"
-  - "Health polling with auto-recovery and rescan on reconnection"
-  - "Dual-warning pattern in MenuBarView matching ffmpeg guidance style"
+  - "HTTP client with Bearer token auth and retry with exponential backoff (2s/4s/8s)"
+  - "API key validation at launch with menu bar guidance"
+  - "Minimum page count filter before LLM classification"
 
 requirements-completed: [PDF-02, PDF-03, PDF-04]
 
@@ -46,54 +48,51 @@ duration: 6min
 completed: 2026-02-22
 ---
 
-# Phase 04 Plan 02: PDF Pipeline & LM Studio Integration Summary
+# Phase 04 Plan 02: PDF Pipeline & OpenAI Integration Summary
 
-**Wired end-to-end PDF classification pipeline: LM Studio HTTP client with retry logic, PDFTask file processing, health polling with auto-recovery, and menu bar guidance for unavailability.**
+**Wired end-to-end PDF classification pipeline: OpenAI HTTP client with Bearer auth and retry logic, PDFTask file processing with minimum page count filter, and menu bar guidance for missing API key.**
 
 ## Performance
 - Tasks: 2/2 completed
 - Duration: ~6 minutes
 - Build: Zero errors on both tasks
-- Tests: All 54 existing tests pass unaffected
+- Tests: All existing tests pass unaffected
 
 ## Accomplishments
-1. Created `LMStudioClient` with health check (GET /v1/models, 5s timeout), classification (POST /v1/chat/completions, 30s timeout), and retry wrapper (3 retries with 2s/4s/8s exponential backoff)
-2. Created `PDFTask` conforming to `FileTask`: extract text → classify with retry → move papers to ~/Documents/Papers or skip
-3. Added `modelName` to `PDFConfig` in AppConfig and default-config.json
-4. Wired PDF pipeline in `AppCoordinator.start()`: creates LMStudioClient, checks availability, starts health polling if unavailable, registers PDFTask
-5. Added `lmStudioAvailable` flag to `AppState` for UI binding
-6. Added `startHealthPolling` method with 60s polling interval and auto-rescan on recovery
-7. Added LM Studio guidance section to MenuBarView (orange warning matching ffmpeg pattern)
-
-## Task Commits
-1. **Task 1: LMStudioClient & Config** - `b613722` (feat)
-2. **Task 2: PDFTask & UI Integration** - `24440d6` (feat)
-
-**Plan metadata:** `a636148` (docs: complete plan)
+1. Created OpenAIClient with classification (POST to OpenAI /v1/chat/completions, Bearer auth, 60s timeout), and retry wrapper (3 retries with 2s/4s/8s exponential backoff)
+2. Created PDFTask conforming to FileTask: extract text -> page count check -> classify with retry -> move papers to ~/Documents/Papers or skip
+3. Replaced lmStudioPort and modelName with openaiApiKey and openaiModel in PDFConfig
+4. Updated default-config.json with openaiApiKey ("") and openaiModel ("gpt-4o")
+5. Wired PDF pipeline in AppCoordinator.start(): creates OpenAIClient, validates API key, registers PDFTask
+6. Added openaiApiKeyConfigured flag to AppState for UI binding
+7. Added OpenAI API key guidance section to MenuBarView (orange warning)
+8. System prompt includes explicit negative examples and structural cues
+9. Single-page PDFs are short-circuited before calling the LLM
+10. Duplicate papers are deleted from Downloads instead of being left in place
 
 ## Files Created/Modified
-- **Created:** OhMyClaw/PDF/LMStudioClient.swift — HTTP client with health check, classification, retry, and conservative parsing
-- **Created:** OhMyClaw/PDF/PDFTask.swift — FileTask conformer wiring extract → classify → move pipeline
-- **Modified:** OhMyClaw/Config/AppConfig.swift — Added `modelName: String` to PDFConfig
-- **Modified:** OhMyClaw/Resources/default-config.json — Added `"modelName": ""` to pdf section
-- **Modified:** OhMyClaw/App/AppCoordinator.swift — PDF pipeline wiring, healthPollingTask property, startHealthPolling method
-- **Modified:** OhMyClaw/App/AppState.swift — Added `lmStudioAvailable: Bool` property
-- **Modified:** OhMyClaw/UI/MenuBarView.swift — Added LM Studio unavailability warning section
-- **Modified:** OhMyClaw.xcodeproj/project.pbxproj — Registered LMStudioClient.swift and PDFTask.swift
+- **Created:** OhMyClaw/PDF/OpenAIClient.swift - HTTP client with Bearer auth, classification, retry, and conservative parsing
+- **Created:** OhMyClaw/PDF/PDFTask.swift - FileTask conformer wiring extract -> classify -> move pipeline with minimum page filter
+- **Modified:** OhMyClaw/Config/AppConfig.swift - Replaced lmStudioPort/modelName with openaiApiKey/openaiModel
+- **Modified:** OhMyClaw/Resources/default-config.json - Updated pdf section with openaiApiKey and openaiModel
+- **Modified:** OhMyClaw/App/AppCoordinator.swift - PDF pipeline wiring with API key validation
+- **Modified:** OhMyClaw/App/AppState.swift - Added openaiApiKeyConfigured property
+- **Modified:** OhMyClaw/UI/MenuBarView.swift - Added OpenAI API key guidance warning section
 
 ## Decisions Made
-1. **Conservative parsing:** Only explicit `{"is_paper": true}` JSON or string match triggers paper classification. All ambiguous responses default to false — better to miss a paper than misfile a receipt.
-2. **Empty modelName:** Empty string in config means "use whatever model is currently loaded in LM Studio" — avoids requiring users to know the exact model identifier.
-3. **Single-recovery polling:** Health polling breaks after first successful availability check to avoid unnecessary background load. If LM Studio goes down again, it will be caught on next app launch.
-4. **Move not copy:** Papers are moved (not copied) from ~/Downloads to ~/Documents/Papers to avoid duplicate disk usage.
+1. **Conservative parsing:** Only explicit {"is_paper": true} JSON or string match triggers paper classification. All ambiguous responses default to false.
+2. **No health polling needed:** OpenAI is a cloud service - just validate the API key is configured at startup.
+3. **60s timeout:** Cloud API calls can be slower than local inference. 60s is appropriate.
+4. **Duplicate deletion:** Duplicate papers are deleted from Downloads (not skipped) since the paper is already archived in Papers.
+5. **Minimum page filter:** Single-page documents (receipts, flyers) are automatically skipped without LLM cost.
 
 ## Deviations from Plan
-None — plan executed exactly as written.
+Switched from local LM Studio to OpenAI API (GPT-4o) for classification. This removes the need for LM Studio health polling and replaces it with API key validation.
 
 ## Issues Encountered
 None.
 
 ## Next Phase Readiness
-Phase 04 complete. PDF classification pipeline fully wired end-to-end. Ready for Phase 05 (Menu Bar Controls & Configuration).
+Phase 04 complete. PDF classification pipeline fully wired end-to-end with OpenAI API. Ready for Phase 05.
 
 ## Self-Check: PASSED
