@@ -111,7 +111,7 @@ Plans:
   3. Config changes — whether from the menu bar UI or an external text editor — take effect immediately without app restart
 
 Plans:
-- [ ] 06-01: Error notification system with batching to prevent notification spam
+- [x] 06-01: Error notification system with batching to prevent notification spam (completed 2026-02-22)
 - [ ] 06-02: Config file watcher for hot-reload and sleep/wake recovery for FSEvents
 
 ---
@@ -125,10 +125,10 @@ Plans:
 | 3. Audio Conversion & Quality | 3/3 | Complete    | 2026-02-22 |
 | 4. PDF Classification | 3/3 | Complete    | 2026-02-22 |
 | 5. Menu Bar Controls & Configuration | 3/3 | Complete    | 2026-02-22 |
-| 6. Resilience & Polish | 0/2 | Not started | - |
+| 6. Resilience & Polish | 1/2 | In progress | - |
 
-**Total plans: 16/18 complete**
+**Total plans: 17/18 complete**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-22 — Phase 5 complete (menu bar controls & configuration)*
+*Last updated: 2026-02-22 — Plan 06-01 complete (error notification system)*

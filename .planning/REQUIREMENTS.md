@@ -53,7 +53,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Infrastructure
 
 - [x] **INF-01**: App checks for ffmpeg availability at launch and guides user to install if missing
-- [ ] **INF-02**: Errors trigger menu bar notification
+- [x] **INF-02**: Errors trigger menu bar notification
 - [x] **INF-03**: All operations are logged to rotating log file
 - [ ] **INF-04**: App handles macOS sleep/wake by re-establishing file watchers
 
