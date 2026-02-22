@@ -7,7 +7,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 ## Phases
 - [x] **Phase 1: App Foundation & File Watching** — Menu bar app shell, FSEvents watcher, config system, and logging (completed 2026-02-21)
 - [x] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music (completed 2026-02-22)
-- [ ] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging
+- [x] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging (completed 2026-02-22)
 - [ ] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via LM Studio
 - [ ] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing
 - [ ] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery
@@ -63,7 +63,7 @@ Plans:
 Plans:
 - [x] 03-01: ffmpeg service & conversion pool — FFmpegLocator path detection, FFmpegConverter async Process wrapper, ConversionPool actor
 - [x] 03-02: Quality models & metadata extension — QualityTier/AudioFormat enums, tier resolution, AudioMetadata format+bitrate via AVFoundation
-- [ ] 03-03: Audio pipeline integration — CSVWriter, AudioTask quality branching, AppCoordinator ffmpeg wiring, MenuBarView guidance, unit tests
+- [x] 03-03: Audio pipeline integration — CSVWriter, AudioTask quality branching, AppCoordinator ffmpeg wiring, MenuBarView guidance, unit tests
 
 ---
 
@@ -77,8 +77,8 @@ Plans:
   3. When LM Studio is unavailable or unresponsive, PDFs remain in ~/Downloads and the failure is logged
 
 Plans:
-- [ ] 04-01: PDF detection and text extraction via PDFKit
-- [ ] 04-02: LM Studio HTTP client, classification prompt, and paper routing logic
+- [ ] 04-01: PDF detection and text extraction via PDFKit (defined)
+- [ ] 04-02: LM Studio HTTP client, classification prompt, and paper routing logic (defined)
 
 ---
 
@@ -119,15 +119,15 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|---------------|--------|-----------|
-| 1. App Foundation & File Watching | 0/4 | Complete    | 2026-02-21 |
-| 2. Audio Detection & Organization | 1/3 | In progress | - |
-| 3. Audio Conversion & Quality | 0/3 | Not started | - |
-| 4. PDF Classification | 0/2 | Not started | - |
+| 1. App Foundation & File Watching | 4/4 | Complete    | 2026-02-21 |
+| 2. Audio Detection & Organization | 3/3 | Complete    | 2026-02-22 |
+| 3. Audio Conversion & Quality | 3/3 | Complete    | 2026-02-22 |
+| 4. PDF Classification | 0/2 | Plans defined | - |
 | 5. Menu Bar Controls & Configuration | 0/3 | Not started | - |
 | 6. Resilience & Polish | 0/2 | Not started | - |
 
-**Total plans: 0/17 complete**
+**Total plans: 10/17 complete**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-21*
+*Last updated: 2026-02-22 — Phase 4 plans defined*
