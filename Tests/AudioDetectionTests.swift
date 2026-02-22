@@ -78,7 +78,9 @@ final class AudioMetadataTests: XCTestCase {
             title: "Song",
             artist: "Artist",
             album: "Album",
-            durationSeconds: 180.0
+            durationSeconds: 180.0,
+            format: .mp3,
+            bitrateKbps: 320
         )
         XCTAssertTrue(metadata.hasRequiredFields(["title", "artist", "album"]))
     }
@@ -88,7 +90,9 @@ final class AudioMetadataTests: XCTestCase {
             title: nil,
             artist: "Artist",
             album: "Album",
-            durationSeconds: 180.0
+            durationSeconds: 180.0,
+            format: .mp3,
+            bitrateKbps: 320
         )
         XCTAssertFalse(metadata.hasRequiredFields(["title", "artist", "album"]))
     }
@@ -98,7 +102,9 @@ final class AudioMetadataTests: XCTestCase {
             title: "Song",
             artist: nil,
             album: nil,
-            durationSeconds: 180.0
+            durationSeconds: 180.0,
+            format: .mp3,
+            bitrateKbps: 320
         )
         XCTAssertTrue(metadata.hasRequiredFields(["title"]))
     }
@@ -108,7 +114,9 @@ final class AudioMetadataTests: XCTestCase {
             title: nil,
             artist: nil,
             album: nil,
-            durationSeconds: 0.0
+            durationSeconds: 0.0,
+            format: .unknown(extension: "ogg"),
+            bitrateKbps: 0
         )
         XCTAssertTrue(metadata.hasRequiredFields([]),
                       "Empty required fields list should always return true")
@@ -119,7 +127,9 @@ final class AudioMetadataTests: XCTestCase {
             title: "Song",
             artist: nil,
             album: "Album",
-            durationSeconds: 180.0
+            durationSeconds: 180.0,
+            format: .flac,
+            bitrateKbps: 0
         )
         let missing = metadata.missingFields(["title", "artist", "album"])
         XCTAssertEqual(missing, ["artist"])

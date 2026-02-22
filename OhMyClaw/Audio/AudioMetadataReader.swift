@@ -1,3 +1,4 @@
+import AudioToolbox
 import AVFoundation
 import CoreMedia
 import Foundation
@@ -8,6 +9,8 @@ struct AudioMetadata: Sendable {
     let artist: String?
     let album: String?
     let durationSeconds: Double
+    let format: AudioFormat
+    let bitrateKbps: Int
 
     /// Returns `true` only if ALL specified fields have non-nil values.
     ///
@@ -61,12 +64,67 @@ struct AudioMetadataReader: Sendable {
         let artist = try? await artistItem?.load(.stringValue)
         let album = try? await albumItem?.load(.stringValue)
 
+        let (format, bitrateKbps) = try await readFormatInfo(from: url, asset: asset)
+
         return AudioMetadata(
             title: title?.nonEmptyTrimmed,
             artist: artist?.nonEmptyTrimmed,
             album: album?.nonEmptyTrimmed,
-            durationSeconds: seconds
+            durationSeconds: seconds,
+            format: format,
+            bitrateKbps: bitrateKbps
         )
+    }
+
+    // MARK: - Format & Bitrate Extraction
+
+    /// Extracts codec format and bitrate from the asset's audio track.
+    ///
+    /// Inspects `formatDescriptions` to resolve codec identity (critical for
+    /// M4A containers which may hold either AAC or ALAC). Falls back to file
+    /// extension when no audio track or format descriptions are available.
+    /// Lossless formats force `bitrateKbps` to 0 (estimatedDataRate is
+    /// unreliable for lossless).
+    private func readFormatInfo(from url: URL, asset: AVURLAsset) async throws -> (AudioFormat, Int) {
+        let tracks = try await asset.load(.tracks)
+        guard let audioTrack = tracks.first(where: { $0.mediaType == .audio }) else {
+            return (AudioFormat.fromExtension(url.pathExtension), 0)
+        }
+
+        let estimatedDataRate = try await audioTrack.load(.estimatedDataRate)
+        let bitrateRaw = Int(estimatedDataRate / 1000)
+
+        let formatDescriptions = try await audioTrack.load(.formatDescriptions)
+        let format: AudioFormat
+
+        if let firstDesc = formatDescriptions.first {
+            let audioDesc = CMAudioFormatDescriptionGetStreamBasicDescription(firstDesc)
+            let formatID = audioDesc?.pointee.mFormatID ?? 0
+
+            switch formatID {
+            case kAudioFormatMPEGLayer3:
+                format = .mp3
+            case kAudioFormatMPEG4AAC:
+                format = .aac
+            case kAudioFormatAppleLossless:
+                format = .alac
+            case kAudioFormatLinearPCM:
+                // Both WAV and AIFF use Linear PCM — distinguish by extension.
+                format = url.pathExtension.lowercased() == "aiff"
+                    || url.pathExtension.lowercased() == "aif"
+                    ? .aiff : .wav
+            case kAudioFormatFLAC:
+                format = .flac
+            default:
+                format = AudioFormat.fromExtension(url.pathExtension)
+            }
+        } else {
+            format = AudioFormat.fromExtension(url.pathExtension)
+        }
+
+        // Lossless: estimatedDataRate may be 0 or misleading — force to 0.
+        let bitrateKbps = format.isLossless ? 0 : bitrateRaw
+        return (format, bitrateKbps)
     }
 }
 
