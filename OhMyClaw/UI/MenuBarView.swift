@@ -17,6 +17,20 @@ struct MenuBarView: View {
                     }
                 }
 
+            if !coordinator.appState.ffmpegAvailable {
+                Divider()
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("ffmpeg not found", systemImage: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange)
+                    Text("Install via: brew install ffmpeg")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text("Audio files will be moved without conversion.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
             Divider()
 
             Button("Quit Oh My Claw") {

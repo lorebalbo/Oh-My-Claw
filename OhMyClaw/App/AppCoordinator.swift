@@ -58,11 +58,36 @@ final class AppCoordinator {
         self.musicLibraryIndex = libraryIndex
         await libraryIndex.build(from: musicDirectoryURL)
 
+        // 5. Check ffmpeg availability
+        let ffmpegPath = FFmpegLocator.locate()
+        appState.ffmpegAvailable = (ffmpegPath != nil)
+
+        if let ffmpegPath {
+            AppLogger.shared.info("ffmpeg found", context: ["path": ffmpegPath.path])
+        } else {
+            AppLogger.shared.warn("ffmpeg not found — audio conversion disabled. Install via: brew install ffmpeg")
+        }
+
+        let conversionPool: ConversionPool? = ffmpegPath != nil ? ConversionPool() : nil
+
+        // 6. Build CSV writer for low-quality file logging
+        let appSupportPath = NSString(string: "~/Library/Application Support/OhMyClaw").expandingTildeInPath
+        let csvLogURL = URL(fileURLWithPath: appSupportPath, isDirectory: true)
+            .appendingPathComponent("low_quality_log.csv")
+        let csvWriter = CSVWriter(fileURL: csvLogURL)
+
+        // 7. Parse quality cutoff from config
+        let qualityCutoff = QualityTier(rawValue: audioConfig.qualityCutoff) ?? .mp3_320
+
         let audioTask = AudioTask(
             identifier: AudioFileIdentifier(),
             metadataReader: AudioMetadataReader(),
             libraryIndex: libraryIndex,
-            config: audioConfig
+            config: audioConfig,
+            ffmpegPath: ffmpegPath,
+            conversionPool: conversionPool,
+            qualityCutoff: qualityCutoff,
+            csvWriter: csvWriter
         )
         if audioConfig.enabled {
             tasks.append(audioTask)
