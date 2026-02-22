@@ -13,6 +13,7 @@
 		2B3C4D5E6F7A8B9C0D1E2F3A /* PDFFileIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2F /* PDFFileIdentifier.swift */; };
 		5E6F7A8B9C0D1E2F3A4B5C6D /* PDFTextExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PDFTextExtractor.swift */; };
 		8B9C0D1E2F3A4B5C6D7E8F9A /* LMStudioClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7A8B9C0D1E2F3A4B5C6D7E /* LMStudioClient.swift */; };
+		0D1E2F3A4B5C6D7E8F9A0B1C /* PDFTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0D1E2F3A4B5C6D7E8F9A0B /* PDFTask.swift */; };
 		32938C8977542D77FA5A235F /* FileWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */; };
 		39A995FD9A60459B1CC900B7 /* AudioFileIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */; };
 		43868A2B4ED3A82C02371081 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332A3C0BCF713527E1A94558 /* FileWatcher.swift */; };
@@ -56,6 +57,7 @@
 		1A2B3C4D5E6F7A8B9C0D1E2F /* PDFFileIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFFileIdentifier.swift; sourceTree = "<group>"; };
 		4D5E6F7A8B9C0D1E2F3A4B5C /* PDFTextExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTextExtractor.swift; sourceTree = "<group>"; };
 		6F7A8B9C0D1E2F3A4B5C6D7E /* LMStudioClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMStudioClient.swift; sourceTree = "<group>"; };
+		9C0D1E2F3A4B5C6D7E8F9A0B /* PDFTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTask.swift; sourceTree = "<group>"; };
 		F5A1B2C3D4E5F6A7B8C9D0E1 /* AudioDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDetectionTests.swift; sourceTree = "<group>"; };
 		9D0E1F2A3B4C5D6E7F8A9B0C /* AudioConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioConversionTests.swift; sourceTree = "<group>"; };
 		4662BA4193CFA7E876357AF2 /* OhMyClawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OhMyClawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +142,7 @@
 			children = (
 				1A2B3C4D5E6F7A8B9C0D1E2F /* PDFFileIdentifier.swift */,
 				6F7A8B9C0D1E2F3A4B5C6D7E /* LMStudioClient.swift */,
+				9C0D1E2F3A4B5C6D7E8F9A0B /* PDFTask.swift */,
 				4D5E6F7A8B9C0D1E2F3A4B5C /* PDFTextExtractor.swift */,
 			);
 			path = PDF;
@@ -340,6 +343,7 @@
 				2B3C4D5E6F7A8B9C0D1E2F3A /* PDFFileIdentifier.swift in Sources */,
 				5E6F7A8B9C0D1E2F3A4B5C6D /* PDFTextExtractor.swift in Sources */,
 				8B9C0D1E2F3A4B5C6D7E8F9A /* LMStudioClient.swift in Sources */,
+				0D1E2F3A4B5C6D7E8F9A0B1C /* PDFTask.swift in Sources */,
 				0FA30FE7ACF363BA76BDEDE0 /* URL+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

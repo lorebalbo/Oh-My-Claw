@@ -17,6 +17,7 @@ final class AppCoordinator {
     private var configStore: ConfigStore?
     private var fileWatcher: FileWatcher?
     private var eventLoopTask: Task<Void, Never>?
+    private var healthPollingTask: Task<Void, Never>?
     private var isStarted = false
     private var musicLibraryIndex: MusicLibraryIndex?
     private var tasks: [any FileTask] = []
@@ -96,7 +97,34 @@ final class AppCoordinator {
         AppLogger.shared.info("Audio pipeline ready",
             context: ["enabled": "\(audioConfig.enabled)"])
 
-        // 5. Start file watcher if monitoring is enabled (defaults to true)
+        // 8. Configure PDF classification pipeline
+        let pdfConfig = store.config.pdf
+        let lmStudioClient = LMStudioClient(port: pdfConfig.lmStudioPort, modelName: pdfConfig.modelName)
+        let lmStudioAvailable = await lmStudioClient.isAvailable()
+        appState.lmStudioAvailable = lmStudioAvailable
+
+        if lmStudioAvailable {
+            AppLogger.shared.info("LM Studio available", context: ["port": "\(pdfConfig.lmStudioPort)"])
+        } else {
+            AppLogger.shared.warn("LM Studio not reachable — PDF classification disabled. Ensure LM Studio is running on port \(pdfConfig.lmStudioPort)")
+            startHealthPolling(client: lmStudioClient)
+        }
+
+        let pdfTask = PDFTask(
+            identifier: PDFFileIdentifier(),
+            textExtractor: PDFTextExtractor(),
+            client: lmStudioClient,
+            destinationPath: pdfConfig.destinationPath,
+            isEnabled: pdfConfig.enabled
+        )
+        if pdfConfig.enabled {
+            tasks.append(pdfTask)
+        }
+
+        AppLogger.shared.info("PDF pipeline ready",
+            context: ["enabled": "\(pdfConfig.enabled)"])
+
+        // 9. Start file watcher if monitoring is enabled (defaults to true)
         if appState.isMonitoring {
             await startMonitoring()
         }
@@ -181,6 +209,8 @@ final class AppCoordinator {
 
     /// Stop monitoring — cancel the event loop and stop the file watcher.
     private func stopMonitoring() {
+        healthPollingTask?.cancel()
+        healthPollingTask = nil
         eventLoopTask?.cancel()
         eventLoopTask = nil
         fileWatcher?.stop()
@@ -198,6 +228,30 @@ final class AppCoordinator {
         } else {
             AppLogger.shared.info("Monitoring disabled by user")
             stopMonitoring()
+        }
+    }
+
+    // MARK: - Health Polling
+
+    /// Polls LM Studio availability every 60 seconds.
+    /// On recovery, updates state, logs, rescans ~/Downloads, then stops polling.
+    private func startHealthPolling(client: LMStudioClient) {
+        healthPollingTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 60 * 1_000_000_000)
+                guard !Task.isCancelled else { break }
+
+                let available = await client.isAvailable()
+                guard let self else { break }
+
+                self.appState.lmStudioAvailable = available
+
+                if available {
+                    AppLogger.shared.info("LM Studio is now available")
+                    await self.fileWatcher?.scanExistingFiles()
+                    break
+                }
+            }
         }
     }
 }

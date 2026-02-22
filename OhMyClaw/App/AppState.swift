@@ -11,4 +11,8 @@ final class AppState {
     /// Whether ffmpeg is available on the system.
     /// Checked once at launch; defaults to true until verified.
     var ffmpegAvailable: Bool = true
+
+    /// Whether LM Studio is reachable for PDF classification.
+    /// Updated at launch and by background health polling.
+    var lmStudioAvailable: Bool = true
 }

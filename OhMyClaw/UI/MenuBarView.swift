@@ -31,6 +31,20 @@ struct MenuBarView: View {
                 }
             }
 
+            if !coordinator.appState.lmStudioAvailable {
+                Divider()
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("LM Studio not reachable", systemImage: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange)
+                    Text("Ensure LM Studio is running with a model loaded.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text("PDF classification is paused until available.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
             Divider()
 
             Button("Quit Oh My Claw") {
