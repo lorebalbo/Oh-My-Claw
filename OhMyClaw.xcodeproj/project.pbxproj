@@ -16,6 +16,7 @@
 		5368F1D5B017AE86425ECE9D /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC2CFC063480EB938943D77 /* AppState.swift */; };
 		79A5F3D6553565F3639E649B /* AudioMetadataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* MusicLibraryIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */; };
+		E1F2A3B4C5D6E7F8A9B0C1D2 /* FFmpegService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A3B4C5D6E7F8A9B0C1D2E3 /* FFmpegService.swift */; };
 		C3D4E5F6A7B8C9D0E1F2A3B4 /* AudioTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */; };
 		7D16880B97865F88339C5A45 /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */; };
 		89B3793E969987CE5ED51656 /* ConfigStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */; };
@@ -63,6 +64,7 @@
 		B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryIndex.swift; sourceTree = "<group>"; };
 		D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetadataReader.swift; sourceTree = "<group>"; };
+		F2A3B4C5D6E7F8A9B0C1D2E3 /* FFmpegService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFmpegService.swift; sourceTree = "<group>"; };
 		D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTask.swift; sourceTree = "<group>"; };
 		EF11E1AFB4ADC712CFD6F768 /* OhMyClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhMyClawApp.swift; sourceTree = "<group>"; };
 		EF86C1C2B3F759DA4066EB80 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */,
 				D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */,
 				D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */,
+				F2A3B4C5D6E7F8A9B0C1D2E3 /* FFmpegService.swift */,
 				B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */,
 			);
 			path = Audio;
@@ -296,6 +299,7 @@
 				A1B2C3D4E5F6A7B8C9D0E1F2 /* MusicLibraryIndex.swift in Sources */,
 				7D16880B97865F88339C5A45 /* ConfigStore.swift in Sources */,
 				EEEB82DA25362EE5C3A962C8 /* FileTask.swift in Sources */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* FFmpegService.swift in Sources */,
 				43868A2B4ED3A82C02371081 /* FileWatcher.swift in Sources */,
 				C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */,
 				8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */,
