@@ -38,7 +38,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### PDF Pipeline
 
 - [x] **PDF-01**: App detects PDF files in ~/Downloads
-- [x] **PDF-02**: App sends PDF content to LM Studio local API for scientific paper classification
+- [x] **PDF-02**: App sends PDF content to OpenAI API for scientific paper classification
 - [x] **PDF-03**: Classified papers are moved to ~/Documents/Papers
 - [x] **PDF-04**: Non-paper PDFs are left in Downloads untouched
 
@@ -47,7 +47,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **CFG-01**: App reads settings from external JSON config file
 - [ ] **CFG-02**: User can edit duration threshold from menu bar
 - [ ] **CFG-03**: User can edit format ranking cutoff from menu bar
-- [ ] **CFG-04**: User can edit LM Studio port from menu bar
+- [ ] **CFG-04**: User can edit OpenAI model from menu bar
 - [ ] **CFG-05**: Config changes take effect immediately without restart
 
 ### Infrastructure
@@ -72,7 +72,7 @@ Deferred to future release. Tracked but not in current roadmap.
 
 - **INT-01**: Fuzzy duplicate matching (handle inconsistent capitalization, diacritics, "feat." variations)
 - **INT-02**: Adjustable LLM confidence threshold for paper classification
-- **INT-03**: LM Studio status indicator (green/red) in menu bar
+- **INT-03**: OpenAI API key status indicator (green/red) in menu bar
 
 ## Out of Scope
 
@@ -113,7 +113,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUD-09 | Phase 3 | Not started |
 | AUD-10 | Phase 3 | Not started |
 | AUD-11 | Phase 3 | Not started |
-| PDF-01 | Phase 4 | Not started |
+| PDF-01 | Phase 4 | Complete |
 | PDF-02 | Phase 4 | Complete |
 | PDF-03 | Phase 4 | Complete |
 | PDF-04 | Phase 4 | Complete |

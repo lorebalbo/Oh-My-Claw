@@ -8,7 +8,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 - [x] **Phase 1: App Foundation & File Watching** — Menu bar app shell, FSEvents watcher, config system, and logging (completed 2026-02-21)
 - [x] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music (completed 2026-02-22)
 - [x] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging (completed 2026-02-22)
-- [x] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via LM Studio (completed 2026-02-22)
+- [x] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via OpenAI API (completed 2026-02-22)
 - [ ] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing
 - [ ] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery
 
@@ -68,17 +68,17 @@ Plans:
 ---
 
 ### Phase 4: PDF Classification
-**Goal**: Classify PDF files as scientific papers using the local LM Studio LLM and route them to ~/Documents/Papers; leave non-papers untouched.
+**Goal**: Classify PDF files as scientific papers using the OpenAI API (GPT-4o) and route them to ~/Documents/Papers; leave non-papers untouched.
 **Depends on**: Phase 1 (file watcher, config, logging)
 **Requirements**: PDF-01, PDF-02, PDF-03, PDF-04
 **Success Criteria** (what must be TRUE):
   1. A scientific paper PDF dropped in ~/Downloads is classified and moved to ~/Documents/Papers
   2. A non-paper PDF (invoice, receipt, manual) dropped in ~/Downloads remains untouched in ~/Downloads
-  3. When LM Studio is unavailable or unresponsive, PDFs remain in ~/Downloads and the failure is logged
+  3. When the OpenAI API key is not configured or API calls fail, PDFs remain in ~/Downloads and the failure is logged
 
 Plans:
 - [x] 04-01: PDF detection and text extraction via PDFKit (completed 2026-02-22)
-- [x] 04-02: LM Studio HTTP client, classification prompt, and paper routing logic (completed 2026-02-22)
+- [x] 04-02: OpenAI HTTP client, classification prompt, and paper routing logic (completed 2026-02-22)
 - [x] 04-03: Gap closure — all gaps confirmed resolved in 04-02 (completed 2026-02-22)
 
 ---
@@ -92,7 +92,7 @@ Plans:
   2. Menu bar icon animates while files are actively being processed
   3. Pausing from the menu bar stops new file detection while in-flight tasks (conversions, moves) complete
   4. Launch at Login toggle persists across app restarts
-  5. User can edit duration threshold, format quality cutoff, and LM Studio port from the menu bar dropdown
+  5. User can edit duration threshold, format quality cutoff, and OpenAI model from the menu bar dropdown
 
 Plans:
 - [ ] 05-01: Dynamic menu bar icon with state visualization and processing animation
