@@ -77,7 +77,7 @@ Plans:
   3. When LM Studio is unavailable or unresponsive, PDFs remain in ~/Downloads and the failure is logged
 
 Plans:
-- [ ] 04-01: PDF detection and text extraction via PDFKit (defined)
+- [x] 04-01: PDF detection and text extraction via PDFKit (completed 2026-02-22)
 - [ ] 04-02: LM Studio HTTP client, classification prompt, and paper routing logic (defined)
 
 ---
@@ -122,12 +122,12 @@ Plans:
 | 1. App Foundation & File Watching | 4/4 | Complete    | 2026-02-21 |
 | 2. Audio Detection & Organization | 3/3 | Complete    | 2026-02-22 |
 | 3. Audio Conversion & Quality | 3/3 | Complete    | 2026-02-22 |
-| 4. PDF Classification | 0/2 | Plans defined | - |
+| 4. PDF Classification | 1/2 | In progress | - |
 | 5. Menu Bar Controls & Configuration | 0/3 | Not started | - |
 | 6. Resilience & Polish | 0/2 | Not started | - |
 
-**Total plans: 10/17 complete**
+**Total plans: 11/17 complete**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-22 — Phase 4 plans defined*
+*Last updated: 2026-02-22 — Plan 04-01 complete (PDF detection & text extraction)*
