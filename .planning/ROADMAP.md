@@ -9,7 +9,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 - [x] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music (completed 2026-02-22)
 - [x] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging (completed 2026-02-22)
 - [x] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via OpenAI API (completed 2026-02-22)
-- [ ] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing
+- [x] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing (completed 2026-02-22)
 - [ ] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery
 
 ## Phase Details
@@ -95,9 +95,9 @@ Plans:
   5. User can edit duration threshold, format quality cutoff, and OpenAI model from the menu bar dropdown
 
 Plans:
-- [ ] 05-01: Dynamic menu bar icon with state visualization and processing animation
-- [ ] 05-02: Pause/resume and Launch at Login lifecycle controls
-- [ ] 05-03: Configuration editor UI (duration slider, quality cutoff picker, LM Studio port field)
+- [x] 05-01: Dynamic menu bar icon with state visualization and processing animation (completed 2026-02-22)
+- [x] 05-02: Pause/resume and Launch at Login lifecycle controls (completed 2026-02-22)
+- [x] 05-03: Configuration editor UI (duration picker, quality cutoff picker, OpenAI model field) (completed 2026-02-22)
 
 ---
 
@@ -124,11 +124,11 @@ Plans:
 | 2. Audio Detection & Organization | 3/3 | Complete    | 2026-02-22 |
 | 3. Audio Conversion & Quality | 3/3 | Complete    | 2026-02-22 |
 | 4. PDF Classification | 3/3 | Complete    | 2026-02-22 |
-| 5. Menu Bar Controls & Configuration | 0/3 | Not started | - |
+| 5. Menu Bar Controls & Configuration | 3/3 | Complete    | 2026-02-22 |
 | 6. Resilience & Polish | 0/2 | Not started | - |
 
-**Total plans: 13/18 complete**
+**Total plans: 16/18 complete**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-22 — Plan 04-03 gap closure complete (all Phase 04 gaps confirmed resolved)*
+*Last updated: 2026-02-22 — Phase 5 complete (menu bar controls & configuration)*
