@@ -32,8 +32,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AUD-07**: Audio format quality is evaluated against configurable ranking (WAV > FLAC > ALAC > AIFF > MP3 320 > AAC 256 > MP3 128)
 - [x] **AUD-08**: Files at or above the ranking cutoff are converted to AIFF 16-bit via ffmpeg
 - [x] **AUD-09**: Conversions run in parallel matching CPU core count
-- [ ] **AUD-10**: Files below the ranking cutoff or not in the ranking are moved to ~/Music/low_quality
-- [ ] **AUD-11**: Low-quality file metadata is logged to CSV (Filename, Title, Artist, Album, Format, Bitrate, Date)
+- [x] **AUD-10**: Files below the ranking cutoff or not in the ranking are moved to ~/Music/low_quality
+- [x] **AUD-11**: Low-quality file metadata is logged to CSV (Filename, Title, Artist, Album, Format, Bitrate, Date)
 
 ### PDF Pipeline
 
