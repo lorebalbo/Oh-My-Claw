@@ -77,6 +77,25 @@ struct PDFConfig: Codable, Equatable, Sendable {
         openaiModel: "gpt-4o",
         destinationPath: "~/Documents/Papers"
     )
+
+    enum CodingKeys: String, CodingKey {
+        case enabled, openaiApiKey, openaiModel, destinationPath
+    }
+
+    init(enabled: Bool, openaiApiKey: String, openaiModel: String, destinationPath: String) {
+        self.enabled = enabled
+        self.openaiApiKey = openaiApiKey
+        self.openaiModel = openaiModel
+        self.destinationPath = destinationPath
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        enabled = (try? container.decode(Bool.self, forKey: .enabled)) ?? Self.defaults.enabled
+        openaiApiKey = (try? container.decode(String.self, forKey: .openaiApiKey)) ?? Self.defaults.openaiApiKey
+        openaiModel = (try? container.decode(String.self, forKey: .openaiModel)) ?? Self.defaults.openaiModel
+        destinationPath = (try? container.decode(String.self, forKey: .destinationPath)) ?? Self.defaults.destinationPath
+    }
 }
 
 struct LoggingConfig: Codable, Equatable, Sendable {
