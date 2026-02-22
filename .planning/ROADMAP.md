@@ -8,7 +8,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 - [x] **Phase 1: App Foundation & File Watching** — Menu bar app shell, FSEvents watcher, config system, and logging (completed 2026-02-21)
 - [x] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music (completed 2026-02-22)
 - [x] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging (completed 2026-02-22)
-- [ ] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via LM Studio
+- [x] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via LM Studio (completed 2026-02-22)
 - [ ] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing
 - [ ] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery
 
@@ -78,7 +78,7 @@ Plans:
 
 Plans:
 - [x] 04-01: PDF detection and text extraction via PDFKit (completed 2026-02-22)
-- [ ] 04-02: LM Studio HTTP client, classification prompt, and paper routing logic (defined)
+- [x] 04-02: LM Studio HTTP client, classification prompt, and paper routing logic (completed 2026-02-22)
 
 ---
 
@@ -122,12 +122,12 @@ Plans:
 | 1. App Foundation & File Watching | 4/4 | Complete    | 2026-02-21 |
 | 2. Audio Detection & Organization | 3/3 | Complete    | 2026-02-22 |
 | 3. Audio Conversion & Quality | 3/3 | Complete    | 2026-02-22 |
-| 4. PDF Classification | 1/2 | In progress | - |
+| 4. PDF Classification | 2/2 | Complete    | 2026-02-22 |
 | 5. Menu Bar Controls & Configuration | 0/3 | Not started | - |
 | 6. Resilience & Polish | 0/2 | Not started | - |
 
-**Total plans: 11/17 complete**
+**Total plans: 12/17 complete**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-22 — Plan 04-01 complete (PDF detection & text extraction)*
+*Last updated: 2026-02-22 — Plan 04-02 complete (PDF pipeline & LM Studio integration)*

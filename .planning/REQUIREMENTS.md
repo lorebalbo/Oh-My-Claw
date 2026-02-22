@@ -38,9 +38,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### PDF Pipeline
 
 - [ ] **PDF-01**: App detects PDF files in ~/Downloads
-- [ ] **PDF-02**: App sends PDF content to LM Studio local API for scientific paper classification
-- [ ] **PDF-03**: Classified papers are moved to ~/Documents/Papers
-- [ ] **PDF-04**: Non-paper PDFs are left in Downloads untouched
+- [x] **PDF-02**: App sends PDF content to LM Studio local API for scientific paper classification
+- [x] **PDF-03**: Classified papers are moved to ~/Documents/Papers
+- [x] **PDF-04**: Non-paper PDFs are left in Downloads untouched
 
 ### Configuration
 
@@ -114,9 +114,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUD-10 | Phase 3 | Not started |
 | AUD-11 | Phase 3 | Not started |
 | PDF-01 | Phase 4 | Not started |
-| PDF-02 | Phase 4 | Not started |
-| PDF-03 | Phase 4 | Not started |
-| PDF-04 | Phase 4 | Not started |
+| PDF-02 | Phase 4 | Complete |
+| PDF-03 | Phase 4 | Complete |
+| PDF-04 | Phase 4 | Complete |
 | CFG-01 | Phase 1 | Not started |
 | CFG-02 | Phase 5 | Not started |
 | CFG-03 | Phase 5 | Not started |
