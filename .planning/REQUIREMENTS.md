@@ -37,7 +37,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### PDF Pipeline
 
-- [ ] **PDF-01**: App detects PDF files in ~/Downloads
+- [x] **PDF-01**: App detects PDF files in ~/Downloads
 - [x] **PDF-02**: App sends PDF content to LM Studio local API for scientific paper classification
 - [x] **PDF-03**: Classified papers are moved to ~/Documents/Papers
 - [x] **PDF-04**: Non-paper PDFs are left in Downloads untouched
