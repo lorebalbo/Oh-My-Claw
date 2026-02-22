@@ -10,7 +10,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 - [x] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging (completed 2026-02-22)
 - [x] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via OpenAI API (completed 2026-02-22)
 - [x] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing (completed 2026-02-22)
-- [ ] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery
+- [x] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery (completed 2026-02-22)
 
 ## Phase Details
 
@@ -112,7 +112,7 @@ Plans:
 
 Plans:
 - [x] 06-01: Error notification system with batching to prevent notification spam (completed 2026-02-22)
-- [ ] 06-02: Config file watcher for hot-reload and sleep/wake recovery for FSEvents
+- [x] 06-02: Config file watcher for hot-reload and sleep/wake recovery for FSEvents (completed 2026-02-22)
 
 ---
 
@@ -125,10 +125,10 @@ Plans:
 | 3. Audio Conversion & Quality | 3/3 | Complete    | 2026-02-22 |
 | 4. PDF Classification | 3/3 | Complete    | 2026-02-22 |
 | 5. Menu Bar Controls & Configuration | 3/3 | Complete    | 2026-02-22 |
-| 6. Resilience & Polish | 1/2 | In progress | - |
+| 6. Resilience & Polish | 2/2 | Complete    | 2026-02-22 |
 
-**Total plans: 17/18 complete**
+**Total plans: 18/18 complete**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-22 — Plan 06-01 complete (error notification system)*
+*Last updated: 2026-02-22 — Plan 06-02 complete (config hot-reload and sleep/wake recovery). All phases complete.*
