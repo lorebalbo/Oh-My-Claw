@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6B2C3D4F5A1A7B8C9D0E1F2 /* AudioDetectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A1B2C3D4E5F6A7B8C9D0E1 /* AudioDetectionTests.swift */; };
 		0FA30FE7ACF363BA76BDEDE0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3DD97BC5E5797A48AE2D /* URL+Extensions.swift */; };
 		32938C8977542D77FA5A235F /* FileWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */; };
 		39A995FD9A60459B1CC900B7 /* AudioFileIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */; };
@@ -44,6 +45,7 @@
 		336BD3F43A331D9696DD96D3 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		3D592ACA5F5720452E11EF7D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileIdentifier.swift; sourceTree = "<group>"; };
+		F5A1B2C3D4E5F6A7B8C9D0E1 /* AudioDetectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDetectionTests.swift; sourceTree = "<group>"; };
 		4662BA4193CFA7E876357AF2 /* OhMyClawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OhMyClawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		497F53666C84CCF8ED494B93 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStore.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				A6F2D5902B0B39740564C2BF /* .gitkeep */,
+				F5A1B2C3D4E5F6A7B8C9D0E1 /* AudioDetectionTests.swift */,
 				8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */,
 				ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */,
 			);
@@ -306,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6B2C3D4F5A1A7B8C9D0E1F2 /* AudioDetectionTests.swift in Sources */,
 				89B3793E969987CE5ED51656 /* ConfigStoreTests.swift in Sources */,
 				32938C8977542D77FA5A235F /* FileWatcherTests.swift in Sources */,
 			);
