@@ -23,12 +23,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Audio Pipeline
 
-- [ ] **AUD-01**: App detects audio files in ~/Downloads by file extension and MIME type
-- [ ] **AUD-02**: App validates configurable metadata fields (default: title, artist, album) — user can enable/disable each field in config
-- [ ] **AUD-03**: App filters audio files by configurable minimum duration (default: 60 seconds)
-- [ ] **AUD-04**: App detects duplicate audio files by matching title+artist metadata against existing files in ~/Music (cross-format)
-- [ ] **AUD-05**: Duplicate audio files in Downloads are deleted
-- [ ] **AUD-06**: Qualifying audio files are moved to ~/Music
+- [x] **AUD-01**: App detects audio files in ~/Downloads by file extension and MIME type
+- [x] **AUD-02**: App validates configurable metadata fields (default: title, artist, album) — user can enable/disable each field in config
+- [x] **AUD-03**: App filters audio files by configurable minimum duration (default: 60 seconds)
+- [x] **AUD-04**: App detects duplicate audio files by matching title+artist metadata against existing files in ~/Music (cross-format)
+- [x] **AUD-05**: Duplicate audio files in Downloads are deleted
+- [x] **AUD-06**: Qualifying audio files are moved to ~/Music
 - [ ] **AUD-07**: Audio format quality is evaluated against configurable ranking (WAV > FLAC > ALAC > AIFF > MP3 320 > AAC 256 > MP3 128)
 - [ ] **AUD-08**: Files at or above the ranking cutoff are converted to AIFF 16-bit via ffmpeg
 - [ ] **AUD-09**: Conversions run in parallel matching CPU core count
@@ -102,12 +102,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WATCH-01 | Phase 1 | Not started |
 | WATCH-02 | Phase 1 | Not started |
 | WATCH-03 | Phase 1 | Not started |
-| AUD-01 | Phase 2 | Not started |
-| AUD-02 | Phase 2 | Not started |
-| AUD-03 | Phase 2 | Not started |
-| AUD-04 | Phase 2 | Not started |
-| AUD-05 | Phase 2 | Not started |
-| AUD-06 | Phase 2 | Not started |
+| AUD-01 | Phase 2 | Complete |
+| AUD-02 | Phase 2 | Complete |
+| AUD-03 | Phase 2 | Complete |
+| AUD-04 | Phase 2 | Complete |
+| AUD-05 | Phase 2 | Complete |
+| AUD-06 | Phase 2 | Complete |
 | AUD-07 | Phase 3 | Not started |
 | AUD-08 | Phase 3 | Not started |
 | AUD-09 | Phase 3 | Not started |

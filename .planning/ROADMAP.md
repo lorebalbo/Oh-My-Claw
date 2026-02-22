@@ -6,7 +6,7 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 
 ## Phases
 - [x] **Phase 1: App Foundation & File Watching** — Menu bar app shell, FSEvents watcher, config system, and logging (completed 2026-02-21)
-- [ ] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music
+- [x] **Phase 2: Audio Detection & Organization** — Detect audio files, validate metadata, filter by duration, handle duplicates, and move to ~/Music (completed 2026-02-22)
 - [ ] **Phase 3: Audio Conversion & Quality** — Quality ranking, AIFF conversion via ffmpeg, low-quality quarantine, and CSV logging
 - [ ] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via LM Studio
 - [ ] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing
