@@ -30,8 +30,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AUD-05**: Duplicate audio files in Downloads are deleted
 - [x] **AUD-06**: Qualifying audio files are moved to ~/Music
 - [ ] **AUD-07**: Audio format quality is evaluated against configurable ranking (WAV > FLAC > ALAC > AIFF > MP3 320 > AAC 256 > MP3 128)
-- [ ] **AUD-08**: Files at or above the ranking cutoff are converted to AIFF 16-bit via ffmpeg
-- [ ] **AUD-09**: Conversions run in parallel matching CPU core count
+- [x] **AUD-08**: Files at or above the ranking cutoff are converted to AIFF 16-bit via ffmpeg
+- [x] **AUD-09**: Conversions run in parallel matching CPU core count
 - [ ] **AUD-10**: Files below the ranking cutoff or not in the ranking are moved to ~/Music/low_quality
 - [ ] **AUD-11**: Low-quality file metadata is logged to CSV (Filename, Title, Artist, Album, Format, Bitrate, Date)
 
@@ -52,7 +52,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INF-01**: App checks for ffmpeg availability at launch and guides user to install if missing
+- [x] **INF-01**: App checks for ffmpeg availability at launch and guides user to install if missing
 - [ ] **INF-02**: Errors trigger menu bar notification
 - [x] **INF-03**: All operations are logged to rotating log file
 - [ ] **INF-04**: App handles macOS sleep/wake by re-establishing file watchers

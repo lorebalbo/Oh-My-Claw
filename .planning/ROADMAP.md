@@ -61,7 +61,7 @@ Plans:
   5. If ffmpeg is not installed, the app displays install guidance at launch instead of silently failing
 
 Plans:
-- [ ] 03-01: ffmpeg service & conversion pool — FFmpegLocator path detection, FFmpegConverter async Process wrapper, ConversionPool actor
+- [x] 03-01: ffmpeg service & conversion pool — FFmpegLocator path detection, FFmpegConverter async Process wrapper, ConversionPool actor
 - [ ] 03-02: Quality models & metadata extension — QualityTier/AudioFormat enums, tier resolution, AudioMetadata format+bitrate via AVFoundation
 - [ ] 03-03: Audio pipeline integration — CSVWriter, AudioTask quality branching, AppCoordinator ffmpeg wiring, MenuBarView guidance, unit tests
 
