@@ -4,6 +4,7 @@ import ServiceManagement
 /// Menu bar dropdown with status, monitoring controls, settings, and app actions.
 struct MenuBarView: View {
     @Environment(AppCoordinator.self) private var coordinator
+    @State private var modelText: String = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -111,7 +112,7 @@ struct MenuBarView: View {
         return "Pause Monitoring"
     }
 
-    // MARK: - Settings Section (placeholder)
+    // MARK: - Settings Section
 
     @ViewBuilder
     private var settingsSection: some View {
@@ -121,10 +122,94 @@ struct MenuBarView: View {
                 .foregroundStyle(.secondary)
                 .textCase(.uppercase)
 
-            Text("No configurable settings yet")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
+            // Duration threshold — preset picker
+            LabeledContent("Min Duration") {
+                Picker("", selection: durationBinding) {
+                    Text("30s").tag(30)
+                    Text("60s").tag(60)
+                    Text("90s").tag(90)
+                    Text("120s").tag(120)
+                }
+                .labelsHidden()
+                .frame(width: 80)
+            }
+
+            // Quality cutoff — dropdown, highest to lowest
+            LabeledContent("Quality Cutoff") {
+                Picker("", selection: qualityCutoffBinding) {
+                    ForEach(QualityTier.allCases.reversed(), id: \.self) { tier in
+                        Text(tier.displayName).tag(tier.rawValue)
+                    }
+                }
+                .labelsHidden()
+                .frame(width: 100)
+            }
+
+            // OpenAI model — text field
+            LabeledContent("OpenAI Model") {
+                TextField("gpt-4o", text: modelBinding)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 120)
+                    .onSubmit {
+                        validateAndSaveModel()
+                    }
+            }
         }
+    }
+
+    // MARK: - Settings Bindings
+
+    private var durationBinding: Binding<Int> {
+        Binding(
+            get: {
+                coordinator.configStore?.config.audio.minDurationSeconds ?? 60
+            },
+            set: { newValue in
+                guard var config = coordinator.configStore?.config else { return }
+                config.audio.minDurationSeconds = newValue
+                coordinator.configStore?.save(config)
+            }
+        )
+    }
+
+    private var qualityCutoffBinding: Binding<String> {
+        Binding(
+            get: {
+                coordinator.configStore?.config.audio.qualityCutoff ?? "mp3_320"
+            },
+            set: { newValue in
+                guard var config = coordinator.configStore?.config else { return }
+                config.audio.qualityCutoff = newValue
+                coordinator.configStore?.save(config)
+            }
+        )
+    }
+
+    private var modelBinding: Binding<String> {
+        Binding(
+            get: {
+                if modelText.isEmpty {
+                    return coordinator.configStore?.config.pdf.openaiModel ?? "gpt-4o"
+                }
+                return modelText
+            },
+            set: { newValue in
+                modelText = newValue
+            }
+        )
+    }
+
+    private func validateAndSaveModel() {
+        let trimmed = modelText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            // Reset to current config value
+            modelText = ""
+            return
+        }
+        guard var config = coordinator.configStore?.config else { return }
+        config.pdf.openaiModel = trimmed
+        coordinator.configStore?.save(config)
+        modelText = ""
     }
 
     // MARK: - App Section

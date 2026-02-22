@@ -110,3 +110,20 @@ struct QualityEvaluator: Sendable {
         return tier >= cutoff
     }
 }
+
+// MARK: - QualityTier Display Names
+
+extension QualityTier {
+    /// Human-readable name for UI display in quality cutoff picker.
+    var displayName: String {
+        switch self {
+        case .wav: return "WAV"
+        case .flac: return "FLAC"
+        case .alac: return "ALAC"
+        case .aiff: return "AIFF"
+        case .mp3_320: return "MP3 320"
+        case .aac_256: return "AAC 256"
+        case .mp3_128: return "MP3 128"
+        }
+    }
+}

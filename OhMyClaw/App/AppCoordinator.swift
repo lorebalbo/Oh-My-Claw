@@ -15,7 +15,7 @@ import SwiftUI
 final class AppCoordinator {
     var appState = AppState()
     private(set) var iconAnimator = IconAnimator()
-    private var configStore: ConfigStore?
+    private(set) var configStore: ConfigStore?
     private var fileWatcher: FileWatcher?
     private var eventLoopTask: Task<Void, Never>?
     private var isStarted = false
