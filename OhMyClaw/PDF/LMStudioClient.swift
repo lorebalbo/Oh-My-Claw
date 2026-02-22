@@ -97,50 +97,41 @@ struct LMStudioClient: Sendable {
 
     /// Classifies extracted PDF text as a scientific paper or not.
     ///
-    /// Sends the text (prefixed with metadata) to the LM Studio chat
-    /// completions endpoint and parses the binary result.
+    /// Sends the raw page text to the LM Studio chat completions endpoint
+    /// and parses the binary result.
     ///
-    /// - Parameters:
-    ///   - text: Extracted PDF text content.
-    ///   - metadata: Document-level metadata (title, author, subject).
+    /// - Parameter text: Extracted PDF text content (first 10 pages).
     /// - Returns: `true` if the document is classified as a scientific paper.
     /// - Throws: `LMStudioError` on connection, response, or parsing failures.
-    func classify(text: String, metadata: PDFMetadata) async throws -> Bool {
+    func classify(text: String) async throws -> Bool {
         let url = baseURL.appendingPathComponent("chat/completions")
 
         let systemPrompt = """
-            You are a document classifier. Your task is to determine whether a document \
-            is a scientific/academic paper. Respond with ONLY a JSON object: {"is_paper": true} \
-            or {"is_paper": false}. No other text.
+            You are a document classifier. Determine whether the following document \
+            is a scientific or academic paper.
 
-            A scientific paper includes: peer-reviewed articles, preprints, conference papers, \
-            theses, dissertations, and technical reports from academic or research institutions. \
-            Papers may be in any language.
+            Respond with ONLY a JSON object: {"is_paper": true} or {"is_paper": false}. \
+            No other text.
 
-            If you are unsure, respond with {"is_paper": false}.
+            Classify as a scientific paper ONLY if the document contains most of these: \
+            an abstract, numbered sections, citations in the text, a references/bibliography \
+            section, and author affiliations with research institutions or universities.
+
+            Do NOT classify as a paper: GitHub issues, bug reports, invoices, receipts, \
+            manuals, product docs, legal documents, forms, newsletters, blog posts, \
+            slide decks, or general technical documentation.
+
+            If you are unsure, respond {"is_paper": false}.
             """
-
-        // Build user content with available metadata
-        var userContent = ""
-        if let title = metadata.title, !title.isEmpty {
-            userContent += "Title: \(title)\n"
-        }
-        if let author = metadata.author, !author.isEmpty {
-            userContent += "Author: \(author)\n"
-        }
-        if let subject = metadata.subject, !subject.isEmpty {
-            userContent += "Subject: \(subject)\n"
-        }
-        userContent += "Document text:\n\(text)"
 
         let requestBody = ChatCompletionRequest(
             model: modelName,
             messages: [
                 .init(role: "system", content: systemPrompt),
-                .init(role: "user", content: userContent)
+                .init(role: "user", content: text)
             ],
             temperature: 0.0,
-            max_tokens: 20
+            max_tokens: 50
         )
 
         let encoder = JSONEncoder()
@@ -189,13 +180,11 @@ struct LMStudioClient: Sendable {
     ///
     /// - Parameters:
     ///   - text: Extracted PDF text content.
-    ///   - metadata: Document-level metadata.
     ///   - client: The LM Studio client to use.
     ///   - maxRetries: Maximum number of retry attempts (default 3, so 4 total).
     /// - Returns: Classification result, or `nil` if all attempts failed.
     static func classifyWithRetry(
         text: String,
-        metadata: PDFMetadata,
         client: LMStudioClient,
         maxRetries: Int = 3
     ) async -> Bool? {
@@ -203,7 +192,7 @@ struct LMStudioClient: Sendable {
 
         for attempt in 0...maxRetries {
             do {
-                let result = try await client.classify(text: text, metadata: metadata)
+                let result = try await client.classify(text: text)
                 return result
             } catch {
                 AppLogger.shared.warn("Classification attempt failed", context: [
@@ -236,8 +225,13 @@ struct LMStudioClient: Sendable {
             return result.is_paper
         }
 
-        // Fallback: check for string patterns
+        // Fallback: check for string patterns in JSON format
         if trimmed.contains("\"is_paper\": true") || trimmed.contains("\"is_paper\":true") {
+            return true
+        }
+
+        // Fallback: check for "Answer: Yes" format
+        if trimmed.contains("answer: yes") || trimmed.hasPrefix("yes") {
             return true
         }
 

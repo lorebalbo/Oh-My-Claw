@@ -48,7 +48,6 @@ struct PDFTask: FileTask, Sendable {
         // Step 2: Classify via LM Studio with retries
         guard let isPaper = await LMStudioClient.classifyWithRetry(
             text: extraction.text,
-            metadata: extraction.metadata,
             client: client,
             maxRetries: 3
         ) else {
