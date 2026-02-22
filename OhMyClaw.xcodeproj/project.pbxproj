@@ -1,0 +1,545 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0FA30FE7ACF363BA76BDEDE0 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBD3DD97BC5E5797A48AE2D /* URL+Extensions.swift */; };
+		32938C8977542D77FA5A235F /* FileWatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */; };
+		39A995FD9A60459B1CC900B7 /* AudioFileIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */; };
+		43868A2B4ED3A82C02371081 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332A3C0BCF713527E1A94558 /* FileWatcher.swift */; };
+		482D5AB6BBEF7FD13C3A067F /* default-config.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E19191FEA5EB9566D5BF173 /* default-config.json */; };
+		5368F1D5B017AE86425ECE9D /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC2CFC063480EB938943D77 /* AppState.swift */; };
+		79A5F3D6553565F3639E649B /* AudioMetadataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* MusicLibraryIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */; };
+		C3D4E5F6A7B8C9D0E1F2A3B4 /* AudioTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */; };
+		7D16880B97865F88339C5A45 /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */; };
+		89B3793E969987CE5ED51656 /* ConfigStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */; };
+		8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */; };
+		935DB3EB23A25DDD05D71FAE /* OhMyClawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF11E1AFB4ADC712CFD6F768 /* OhMyClawApp.swift */; };
+		C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86C1C2B3F759DA4066EB80 /* Logger.swift */; };
+		D38234D187F03F21CE77056E /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D592ACA5F5720452E11EF7D /* AppCoordinator.swift */; };
+		EB3C0D0E0DE5DE9D92171A57 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F53666C84CCF8ED494B93 /* NotificationManager.swift */; };
+		EEEB82DA25362EE5C3A962C8 /* FileTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A0A8D0B5D15FF5148D1AEF /* FileTask.swift */; };
+		F1D0F5B176B2404EAE677D3A /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336BD3F43A331D9696DD96D3 /* AppConfig.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		33DA348207C1121D15160BB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E9C75E5167F9FB47BF843E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F74936E10F06A5B5B181BAE;
+			remoteInfo = OhMyClaw;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		073D853786E24AA06F521E68 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		2C79225F8F359E6EB43B3B26 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		332A3C0BCF713527E1A94558 /* FileWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcher.swift; sourceTree = "<group>"; };
+		336BD3F43A331D9696DD96D3 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		3D592ACA5F5720452E11EF7D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileIdentifier.swift; sourceTree = "<group>"; };
+		4662BA4193CFA7E876357AF2 /* OhMyClawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OhMyClawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		497F53666C84CCF8ED494B93 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStore.swift; sourceTree = "<group>"; };
+		52A0A8D0B5D15FF5148D1AEF /* FileTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTask.swift; sourceTree = "<group>"; };
+		5BBD3DD97BC5E5797A48AE2D /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		6CC8B919E549F308853F96A0 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		746E0BF0E626FABC461A1565 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		7AC2CFC063480EB938943D77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		7E19191FEA5EB9566D5BF173 /* default-config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "default-config.json"; sourceTree = "<group>"; };
+		8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStoreTests.swift; sourceTree = "<group>"; };
+		A454F75FB1F2276F8CEA216F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A6F2D5902B0B39740564C2BF /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		A788B7DCA90F98F9A2EAA76A /* OhMyClaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OhMyClaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcherTests.swift; sourceTree = "<group>"; };
+		B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryIndex.swift; sourceTree = "<group>"; };
+		D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetadataReader.swift; sourceTree = "<group>"; };
+		D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTask.swift; sourceTree = "<group>"; };
+		EF11E1AFB4ADC712CFD6F768 /* OhMyClawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhMyClawApp.swift; sourceTree = "<group>"; };
+		EF86C1C2B3F759DA4066EB80 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		04CC50CFF816C0B6E65FC4C3 = {
+			isa = PBXGroup;
+			children = (
+				DC885D009F39A0129DD085A2 /* OhMyClaw */,
+				4B9BB4A312A173BDC5BF56D2 /* Tests */,
+				1D260F66ED6AEB87CED141C8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1BA450B4C73FE59D89EB3566 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				2C79225F8F359E6EB43B3B26 /* .gitkeep */,
+				52A0A8D0B5D15FF5148D1AEF /* FileTask.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		1D260F66ED6AEB87CED141C8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A788B7DCA90F98F9A2EAA76A /* OhMyClaw.app */,
+				4662BA4193CFA7E876357AF2 /* OhMyClawTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1F02A1F6445D57BCA1313061 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				3E1207E04A35AEB068FC5F28 /* AudioFileIdentifier.swift */,
+				D395550E65DD4CB20253CF85 /* AudioMetadataReader.swift */,
+				D4E5F6A7B8C9D0E1F2A3B4C5 /* AudioTask.swift */,
+				B2C3D4E5F6A7B8C9D0E1F2A3 /* MusicLibraryIndex.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		2C4340EE85BB5A0E9F2CF189 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B398DEA6CAF0C9B5DDEB47F1 /* MenuBarView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3080935EEBE25E79E94B6A54 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				073D853786E24AA06F521E68 /* .gitkeep */,
+				5BBD3DD97BC5E5797A48AE2D /* URL+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3C5CAB23356F780C273F530B /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3080935EEBE25E79E94B6A54 /* Extensions */,
+				EF86C1C2B3F759DA4066EB80 /* Logger.swift */,
+				497F53666C84CCF8ED494B93 /* NotificationManager.swift */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		468FAC44A7D44BBFB0F0CAD1 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				746E0BF0E626FABC461A1565 /* .gitkeep */,
+				336BD3F43A331D9696DD96D3 /* AppConfig.swift */,
+				4BD4FEBE7BCCDF2E081A13E9 /* ConfigStore.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		4B9BB4A312A173BDC5BF56D2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A6F2D5902B0B39740564C2BF /* .gitkeep */,
+				8BE60567C5BBF8807F017079 /* ConfigStoreTests.swift */,
+				ACCB68C5BC00C453ED823BFB /* FileWatcherTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		9AF204E3EC0CFB2BA2EDD85A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6CC8B919E549F308853F96A0 /* .gitkeep */,
+				7E19191FEA5EB9566D5BF173 /* default-config.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DC885D009F39A0129DD085A2 /* OhMyClaw */ = {
+			isa = PBXGroup;
+			children = (
+				E6372EF9569D594D14058E6B /* App */,
+				1F02A1F6445D57BCA1313061 /* Audio */,
+				468FAC44A7D44BBFB0F0CAD1 /* Config */,
+				DD6146405C1CA5B58B452CF9 /* Core */,
+				3C5CAB23356F780C273F530B /* Infrastructure */,
+				9AF204E3EC0CFB2BA2EDD85A /* Resources */,
+				2C4340EE85BB5A0E9F2CF189 /* UI */,
+				A454F75FB1F2276F8CEA216F /* Info.plist */,
+				EF11E1AFB4ADC712CFD6F768 /* OhMyClawApp.swift */,
+			);
+			path = OhMyClaw;
+			sourceTree = "<group>";
+		};
+		DD6146405C1CA5B58B452CF9 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1BA450B4C73FE59D89EB3566 /* Protocols */,
+				332A3C0BCF713527E1A94558 /* FileWatcher.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		E6372EF9569D594D14058E6B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3D592ACA5F5720452E11EF7D /* AppCoordinator.swift */,
+				7AC2CFC063480EB938943D77 /* AppState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		49A991EB33F3907EC8CCF2F7 /* OhMyClawTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D165F2BFB32ADA193B27652B /* Build configuration list for PBXNativeTarget "OhMyClawTests" */;
+			buildPhases = (
+				2C5E6E0AD453492D48E59B51 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BEDD2E0FC51207BA339278D /* PBXTargetDependency */,
+			);
+			name = OhMyClawTests;
+			packageProductDependencies = (
+			);
+			productName = OhMyClawTests;
+			productReference = 4662BA4193CFA7E876357AF2 /* OhMyClawTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9F74936E10F06A5B5B181BAE /* OhMyClaw */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A19BB60559CACB05774EBC48 /* Build configuration list for PBXNativeTarget "OhMyClaw" */;
+			buildPhases = (
+				065075B75F7F0559FCDF5339 /* Sources */,
+				2E661E737881DD01340CB558 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OhMyClaw;
+			packageProductDependencies = (
+			);
+			productName = OhMyClaw;
+			productReference = A788B7DCA90F98F9A2EAA76A /* OhMyClaw.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3E9C75E5167F9FB47BF843E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					9F74936E10F06A5B5B181BAE = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9F4F577C63E6437AB735377B /* Build configuration list for PBXProject "OhMyClaw" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 04CC50CFF816C0B6E65FC4C3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9F74936E10F06A5B5B181BAE /* OhMyClaw */,
+				49A991EB33F3907EC8CCF2F7 /* OhMyClawTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2E661E737881DD01340CB558 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				482D5AB6BBEF7FD13C3A067F /* default-config.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		065075B75F7F0559FCDF5339 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1D0F5B176B2404EAE677D3A /* AppConfig.swift in Sources */,
+				D38234D187F03F21CE77056E /* AppCoordinator.swift in Sources */,
+				5368F1D5B017AE86425ECE9D /* AppState.swift in Sources */,
+				39A995FD9A60459B1CC900B7 /* AudioFileIdentifier.swift in Sources */,
+				79A5F3D6553565F3639E649B /* AudioMetadataReader.swift in Sources */,
+				C3D4E5F6A7B8C9D0E1F2A3B4 /* AudioTask.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* MusicLibraryIndex.swift in Sources */,
+				7D16880B97865F88339C5A45 /* ConfigStore.swift in Sources */,
+				EEEB82DA25362EE5C3A962C8 /* FileTask.swift in Sources */,
+				43868A2B4ED3A82C02371081 /* FileWatcher.swift in Sources */,
+				C2381B0D08438443AE8F2D99 /* Logger.swift in Sources */,
+				8A094A1C7E66A3E27EA50180 /* MenuBarView.swift in Sources */,
+				EB3C0D0E0DE5DE9D92171A57 /* NotificationManager.swift in Sources */,
+				935DB3EB23A25DDD05D71FAE /* OhMyClawApp.swift in Sources */,
+				0FA30FE7ACF363BA76BDEDE0 /* URL+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C5E6E0AD453492D48E59B51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89B3793E969987CE5ED51656 /* ConfigStoreTests.swift in Sources */,
+				32938C8977542D77FA5A235F /* FileWatcherTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3BEDD2E0FC51207BA339278D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F74936E10F06A5B5B181BAE /* OhMyClaw */;
+			targetProxy = 33DA348207C1121D15160BB8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2A89E3EAF1CB920CC96AA274 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OhMyClaw/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ohmyclaw.app;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7CB687118922DAA9144F2A33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ohmyclaw.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OhMyClaw.app/Contents/MacOS/OhMyClaw";
+			};
+			name = Debug;
+		};
+		922E035E1798DF6BC7996F5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ohmyclaw.tests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OhMyClaw.app/Contents/MacOS/OhMyClaw";
+			};
+			name = Release;
+		};
+		CCDE5700007A6B180ACA3C76 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OhMyClaw/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ohmyclaw.app;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E142BAD6553EA141AFA3BC5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Release;
+		};
+		F4BB6BA92DB827DAE4004E0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.10;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9F4F577C63E6437AB735377B /* Build configuration list for PBXProject "OhMyClaw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4BB6BA92DB827DAE4004E0D /* Debug */,
+				E142BAD6553EA141AFA3BC5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A19BB60559CACB05774EBC48 /* Build configuration list for PBXNativeTarget "OhMyClaw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A89E3EAF1CB920CC96AA274 /* Debug */,
+				CCDE5700007A6B180ACA3C76 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D165F2BFB32ADA193B27652B /* Build configuration list for PBXNativeTarget "OhMyClawTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB687118922DAA9144F2A33 /* Debug */,
+				922E035E1798DF6BC7996F5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3E9C75E5167F9FB47BF843E6 /* Project object */;
+}
