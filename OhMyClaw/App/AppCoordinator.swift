@@ -18,6 +18,8 @@ final class AppCoordinator {
     private var fileWatcher: FileWatcher?
     private var eventLoopTask: Task<Void, Never>?
     private var isStarted = false
+    private var musicLibraryIndex: MusicLibraryIndex?
+    private var tasks: [any FileTask] = []
 
     /// Start all services. Called once from the UI on app launch.
     func start() async {
@@ -47,7 +49,29 @@ final class AppCoordinator {
         AppLogger.shared.info("Oh My Claw started",
             context: ["configPath": store.config.logging.level])
 
-        // 4. Start file watcher if monitoring is enabled (defaults to true)
+        // 4. Build music library index and configure audio pipeline
+        let audioConfig = store.config.audio
+        let musicDirectoryPath = NSString(string: audioConfig.destinationPath).expandingTildeInPath
+        let musicDirectoryURL = URL(fileURLWithPath: musicDirectoryPath, isDirectory: true)
+
+        let libraryIndex = MusicLibraryIndex()
+        self.musicLibraryIndex = libraryIndex
+        await libraryIndex.build(from: musicDirectoryURL)
+
+        let audioTask = AudioTask(
+            identifier: AudioFileIdentifier(),
+            metadataReader: AudioMetadataReader(),
+            libraryIndex: libraryIndex,
+            config: audioConfig
+        )
+        if audioConfig.enabled {
+            tasks.append(audioTask)
+        }
+
+        AppLogger.shared.info("Audio pipeline ready",
+            context: ["enabled": "\(audioConfig.enabled)"])
+
+        // 5. Start file watcher if monitoring is enabled (defaults to true)
         if appState.isMonitoring {
             await startMonitoring()
         }
@@ -95,8 +119,37 @@ final class AppCoordinator {
                         "size": "\(fileURL.fileSize ?? 0) bytes"
                     ])
 
-                // TODO: Phase 2+ — route file to appropriate task (audio, PDF)
-                // For Phase 1, we only detect and log. Task routing comes in Phase 2.
+                // Route through registered tasks
+                var handled = false
+                for task in self.tasks where task.isEnabled && task.canHandle(file: fileURL) {
+                    do {
+                        let result = try await task.process(file: fileURL)
+                        switch result {
+                        case .processed(let action):
+                            AppLogger.shared.info("File processed",
+                                context: ["file": fileURL.lastPathComponent, "task": task.id, "action": action])
+                        case .skipped(let reason):
+                            AppLogger.shared.info("File skipped",
+                                context: ["file": fileURL.lastPathComponent, "task": task.id, "reason": reason])
+                        case .duplicate(let title, let artist):
+                            AppLogger.shared.info("Duplicate deleted",
+                                context: ["file": fileURL.lastPathComponent, "task": task.id, "title": title, "artist": artist])
+                        case .error(let description):
+                            AppLogger.shared.error("Processing error",
+                                context: ["file": fileURL.lastPathComponent, "task": task.id, "error": description])
+                        }
+                        handled = true
+                        break
+                    } catch {
+                        AppLogger.shared.error("Task failed",
+                            context: ["file": fileURL.lastPathComponent, "task": task.id, "error": error.localizedDescription])
+                    }
+                }
+
+                if !handled {
+                    AppLogger.shared.debug("No task handled file",
+                        context: ["file": fileURL.lastPathComponent])
+                }
             }
         }
     }
