@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import SwiftUI
 
@@ -22,6 +23,9 @@ final class AppCoordinator {
     private var musicLibraryIndex: MusicLibraryIndex?
     private var tasks: [any FileTask] = []
     private let errorCollector = ErrorCollector()
+    private var configFileWatcher: ConfigFileWatcher?
+    private var sleepWakeTask: Task<Void, Never>?
+    private var wakeObserverTask: Task<Void, Never>?
 
     /// Start all services. Called once from the UI on app launch.
     func start() async {
@@ -128,6 +132,12 @@ final class AppCoordinator {
         if appState.monitoringState != .paused {
             await startMonitoring()
         }
+
+        // 10. Start config file watcher for hot-reload
+        startConfigFileWatcher()
+
+        // 11. Subscribe to sleep/wake notifications
+        observeSleepWake()
     }
 
     /// Start the file watcher and event processing loop.
@@ -236,6 +246,7 @@ final class AppCoordinator {
         eventLoopTask = nil
         fileWatcher?.stop()
         fileWatcher = nil
+        stopConfigFileWatcher()
         iconAnimator.stopAnimating()
         AppLogger.shared.info("File monitoring stopped")
     }
@@ -300,6 +311,214 @@ final class AppCoordinator {
         } else {
             appState.monitoringState = .idle
         }
+    }
+
+    // MARK: - Config File Watcher
+
+    /// Start watching config.json for external changes (hot-reload).
+    private func startConfigFileWatcher() {
+        guard let configURL = configStore?.configFileURL else { return }
+
+        let watcher = ConfigFileWatcher(fileURL: configURL)
+        self.configFileWatcher = watcher
+
+        watcher.start { [weak self] in
+            Task { @MainActor [weak self] in
+                await self?.handleConfigChange()
+            }
+        }
+
+        AppLogger.shared.info("Config file watcher started",
+            context: ["path": configURL.path])
+    }
+
+    /// Stop watching the config file.
+    private func stopConfigFileWatcher() {
+        configFileWatcher?.stop()
+        configFileWatcher = nil
+    }
+
+    /// Handle a detected change to the config file.
+    /// Called by ConfigFileWatcher after debounce, on @MainActor.
+    private func handleConfigChange() async {
+        guard let store = configStore else { return }
+
+        let result = store.reload()
+
+        switch result {
+        case .unchanged:
+            AppLogger.shared.debug("Config file changed but content unchanged")
+
+        case .updated:
+            AppLogger.shared.info("Config reloaded — rebuilding task pipeline")
+            NotificationManager.shared.notifyConfigReloaded()
+            rebuildTaskPipeline()
+
+        case .invalid(let errors):
+            AppLogger.shared.warn("Config reload failed — keeping previous config",
+                context: ["errors": errors.joined(separator: "; ")])
+            for error in errors {
+                await errorCollector.report(
+                    category: .configReload,
+                    file: "config.json",
+                    message: error
+                )
+            }
+        }
+    }
+
+    /// Rebuild the task pipeline with the current config.
+    /// In-flight tasks keep their old config (value-type capture).
+    /// Only affects which tasks handle FUTURE files.
+    private func rebuildTaskPipeline() {
+        guard let store = configStore else { return }
+        let config = store.config
+
+        var newTasks: [any FileTask] = []
+
+        // Rebuild audio task
+        let audioConfig = config.audio
+        let musicDirectoryPath = NSString(string: audioConfig.destinationPath).expandingTildeInPath
+        let musicDirectoryURL = URL(fileURLWithPath: musicDirectoryPath, isDirectory: true)
+
+        let ffmpegPath = FFmpegLocator.locate()
+        appState.ffmpegAvailable = (ffmpegPath != nil)
+        let conversionPool: ConversionPool? = ffmpegPath != nil ? ConversionPool() : nil
+
+        let appSupportPath = NSString(string: "~/Library/Application Support/OhMyClaw").expandingTildeInPath
+        let csvLogURL = URL(fileURLWithPath: appSupportPath, isDirectory: true)
+            .appendingPathComponent("low_quality_log.csv")
+        let csvWriter = CSVWriter(fileURL: csvLogURL)
+
+        let qualityCutoff = QualityTier(rawValue: audioConfig.qualityCutoff) ?? .mp3_320
+
+        // Rebuild music library index for the possibly-new destination path
+        if let libraryIndex = musicLibraryIndex {
+            Task {
+                await libraryIndex.build(from: musicDirectoryURL)
+            }
+        }
+
+        let audioTask = AudioTask(
+            identifier: AudioFileIdentifier(),
+            metadataReader: AudioMetadataReader(),
+            libraryIndex: musicLibraryIndex ?? MusicLibraryIndex(),
+            config: audioConfig,
+            ffmpegPath: ffmpegPath,
+            conversionPool: conversionPool,
+            qualityCutoff: qualityCutoff,
+            csvWriter: csvWriter
+        )
+        if audioConfig.enabled {
+            newTasks.append(audioTask)
+        }
+
+        // Rebuild PDF task
+        let pdfConfig = config.pdf
+        let openaiClient = OpenAIClient(apiKey: pdfConfig.openaiApiKey, modelName: pdfConfig.openaiModel)
+        appState.openaiApiKeyConfigured = !pdfConfig.openaiApiKey.isEmpty
+
+        let pdfTask = PDFTask(
+            identifier: PDFFileIdentifier(),
+            textExtractor: PDFTextExtractor(),
+            client: openaiClient,
+            destinationPath: pdfConfig.destinationPath,
+            isEnabled: pdfConfig.enabled
+        )
+        if pdfConfig.enabled {
+            newTasks.append(pdfTask)
+        }
+
+        self.tasks = newTasks
+
+        // Reconfigure logger if logging config changed
+        let logConfig = config.logging
+        AppLogger.shared.configure(
+            maxFileSizeMB: logConfig.maxFileSizeMB,
+            maxRotatedFiles: logConfig.maxRotatedFiles,
+            level: logConfig.level
+        )
+
+        AppLogger.shared.info("Task pipeline rebuilt",
+            context: [
+                "audioEnabled": "\(config.audio.enabled)",
+                "pdfEnabled": "\(config.pdf.enabled)"
+            ])
+    }
+
+    // MARK: - Sleep/Wake Recovery
+
+    /// Subscribe to macOS sleep/wake notifications using async sequences.
+    private func observeSleepWake() {
+        let center = NSWorkspace.shared.notificationCenter
+
+        // Will Sleep observer
+        sleepWakeTask = Task { [weak self] in
+            for await _ in center.notifications(named: NSWorkspace.willSleepNotification) {
+                guard let self else { break }
+                await self.handleWillSleep()
+            }
+        }
+
+        // Did Wake observer
+        wakeObserverTask = Task { [weak self] in
+            for await _ in center.notifications(named: NSWorkspace.didWakeNotification) {
+                guard let self else { break }
+                await self.handleDidWake()
+            }
+        }
+
+        AppLogger.shared.info("Sleep/wake observers registered")
+    }
+
+    /// System is about to sleep. Tear down all watchers and flush pending errors.
+    private func handleWillSleep() async {
+        AppLogger.shared.info("System will sleep — tearing down watchers and event loop")
+
+        // Flush any pending error batches before sleeping
+        await errorCollector.flushAll()
+
+        // Cancel the event loop (stops processing new events)
+        eventLoopTask?.cancel()
+        eventLoopTask = nil
+
+        // Stop the FSEvents file watcher
+        fileWatcher?.stop()
+        fileWatcher = nil
+
+        // Stop the config file watcher
+        stopConfigFileWatcher()
+
+        AppLogger.shared.info("Teardown complete — ready for sleep")
+    }
+
+    /// System woke from sleep. Restart monitoring if it was enabled before sleep.
+    private func handleDidWake() async {
+        AppLogger.shared.info("System woke — re-establishing monitoring")
+
+        // Reset error cooldowns so fresh errors are reported immediately
+        await errorCollector.resetCooldowns()
+
+        // Only restart if monitoring was enabled before sleep
+        let shouldRestart: Bool
+        if case .paused = appState.monitoringState {
+            shouldRestart = false
+        } else {
+            shouldRestart = true
+        }
+
+        guard shouldRestart else {
+            AppLogger.shared.info("Monitoring was paused before sleep — not restarting")
+            return
+        }
+
+        // Restart file monitoring (creates fresh FileWatcher + event loop + scans ~/Downloads)
+        await startMonitoring()
+
+        // Restart config file watcher
+        startConfigFileWatcher()
+
+        AppLogger.shared.info("Monitoring resumed after sleep/wake")
     }
 
 }
