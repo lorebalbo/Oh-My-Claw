@@ -68,7 +68,7 @@ struct PDFTask: FileTask, Sendable {
             AppLogger.shared.error("Classification failed after all retries", context: [
                 "file": file.lastPathComponent
             ])
-            return .skipped(reason: "Classification failed — leaving in Downloads")
+            return .error(description: "Classification failed after all retries — leaving in Downloads")
         }
 
         // Step 3: Check classification result

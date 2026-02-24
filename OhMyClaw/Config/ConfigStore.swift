@@ -20,6 +20,7 @@ final class ConfigStore {
     private(set) var validationErrors: [String] = []
 
     private let configURL: URL
+    private let backupURL: URL
     private let defaults: AppConfig
 
     /// Public read-only access to the config file path. Used by ConfigFileWatcher.
@@ -32,6 +33,7 @@ final class ConfigStore {
             for: .applicationSupportDirectory, in: .userDomainMask
         ).first!.appendingPathComponent("OhMyClaw", isDirectory: true)
         self.configURL = configURL ?? appSupport.appendingPathComponent("config.json")
+        self.backupURL = self.configURL.deletingLastPathComponent().appendingPathComponent("config.last-good.json")
         self.defaults = AppConfig.defaults
         self.config = AppConfig.defaults
     }
@@ -64,13 +66,16 @@ final class ConfigStore {
             if errors.isEmpty {
                 config = decoded
                 validationErrors = []
+                saveLastKnownGood(decoded)
             } else {
                 // Keep current config active on invalid values (don't reset to defaults)
                 validationErrors = errors
+                loadLastKnownGood()
             }
         } catch {
-            // Corrupt or unparseable JSON — keep current config active
+            // Corrupt or unparseable JSON — try last-known-good backup before falling back to defaults
             validationErrors = ["Failed to parse config.json: \(error.localizedDescription). Keeping current config."]
+            loadLastKnownGood()
         }
     }
 
@@ -124,6 +129,7 @@ final class ConfigStore {
 
         config = decoded
         validationErrors = []
+        saveLastKnownGood(decoded)
         AppLogger.shared.info("Config reloaded successfully")
         return .updated
     }
@@ -162,5 +168,28 @@ final class ConfigStore {
         }
 
         return errors
+    }
+
+    // MARK: - Last-Known-Good Config Persistence
+
+    /// Save a validated config as the last-known-good backup.
+    private func saveLastKnownGood(_ config: AppConfig) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        guard let data = try? encoder.encode(config) else { return }
+        try? data.write(to: backupURL, options: .atomic)
+    }
+
+    /// Attempt to restore from the last-known-good backup.
+    /// Called when config.json is corrupted or invalid at startup.
+    private func loadLastKnownGood() {
+        guard FileManager.default.fileExists(atPath: backupURL.path),
+              let data = try? Data(contentsOf: backupURL),
+              let decoded = try? JSONDecoder().decode(AppConfig.self, from: data),
+              validate(decoded).isEmpty else {
+            return
+        }
+        config = decoded
+        AppLogger.shared.info("Restored last-known-good config from backup")
     }
 }

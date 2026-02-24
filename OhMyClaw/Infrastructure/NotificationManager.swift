@@ -46,12 +46,12 @@ final class NotificationManager: NSObject, Sendable, UNUserNotificationCenterDel
 
     /// Post a warning notification about config validation issues.
     func notifyConfigError(_ errors: [String]) {
-        let body = errors.count == 1
+        let detail = errors.count == 1
             ? errors[0]
-            : "\(errors.count) config issues found. Using defaults. Check log for details."
+            : "\(errors.count) config issues found. Check log for details."
         notify(
             title: "Oh My Claw — Config Error",
-            body: body,
+            body: "config.json is invalid: \(detail) Continuing with last valid configuration.",
             identifier: "config-validation-error"
         )
     }

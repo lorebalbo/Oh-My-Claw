@@ -357,13 +357,14 @@ final class AppCoordinator {
         case .invalid(let errors):
             AppLogger.shared.warn("Config reload failed — keeping previous config",
                 context: ["errors": errors.joined(separator: "; ")])
-            for error in errors {
-                await errorCollector.report(
-                    category: .configReload,
-                    file: "config.json",
-                    message: error
-                )
-            }
+            let summary = errors.count == 1
+                ? errors[0]
+                : "\(errors.count) issues found"
+            await errorCollector.report(
+                category: .configReload,
+                file: "config.json",
+                message: "Config is invalid (\(summary)). Continuing with last valid configuration."
+            )
         }
     }
 
