@@ -95,10 +95,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | APP-01 | Phase 1 | Not started |
-| APP-02 | Phase 5 | Not started |
-| APP-03 | Phase 5 | Not started |
-| APP-04 | Phase 5 | Not started |
-| APP-05 | Phase 5 | Not started |
+| APP-02 | Phase 8 | Pending |
+| APP-03 | Phase 9 | Pending |
+| APP-04 | Phase 8 | Pending |
+| APP-05 | Phase 9 | Pending |
 | WATCH-01 | Phase 1 | Not started |
 | WATCH-02 | Phase 1 | Not started |
 | WATCH-03 | Phase 1 | Not started |
@@ -118,9 +118,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PDF-03 | Phase 4 | Complete |
 | PDF-04 | Phase 4 | Complete |
 | CFG-01 | Phase 1 | Not started |
-| CFG-02 | Phase 5 | Not started |
-| CFG-03 | Phase 5 | Not started |
-| CFG-04 | Phase 5 | Not started |
+| CFG-02 | Phase 7 | Pending |
+| CFG-03 | Phase 7 | Pending |
+| CFG-04 | Phase 7 | Pending |
 | CFG-05 | Phase 6 | Not started |
 | INF-01 | Phase 3 | Not started |
 | INF-02 | Phase 6 | Not started |
@@ -140,8 +140,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Phase 4 | PDF-01, PDF-02, PDF-03, PDF-04 | 4 |
 | Phase 5 | APP-02, APP-03, APP-04, APP-05, CFG-02, CFG-03, CFG-04 | 7 |
 | Phase 6 | CFG-05, INF-02, INF-04 | 3 |
+| Phase 7 | CFG-02, CFG-03, CFG-04 | 3 (gap closure) |
+| Phase 8 | APP-02, APP-04 | 2 (gap closure) |
+| Phase 9 | APP-03, APP-05 | 2 (gap closure) |
 | **Total** | | **32** |
 
 ---
 *Requirements defined: 2026-02-21*
-*Last updated: 2026-02-21 — Traceability mapped to roadmap phases*
+*Last updated: 2026-02-24 — Traceability updated for gap closure phases 7-9*

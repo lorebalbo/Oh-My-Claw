@@ -11,6 +11,9 @@ Oh My Claw is delivered in 6 sequential phases following natural dependency boun
 - [x] **Phase 4: PDF Classification** — LLM-powered scientific paper detection and routing via OpenAI API (completed 2026-02-22)
 - [x] **Phase 5: Menu Bar Controls & Configuration** — State indicators, animations, pause/resume, Launch at Login, and in-app config editing (completed 2026-02-22)
 - [x] **Phase 6: Resilience & Polish** — Error notifications, config hot-reload, and sleep/wake recovery (completed 2026-02-22)
+- [ ] **Phase 7: Fix Config Save Pipeline** — Fix UI config changes not rebuilding task pipeline (gap closure)
+- [ ] **Phase 8: Fix Icon State & Lifecycle Bugs** — Fix error icon stuck state and pause/resume memory leak (gap closure)
+- [ ] **Phase 9: Phase 5 Verification Pass** — Verify remaining Phase 5 requirements and create missing verification artifacts (gap closure)
 
 ## Phase Details
 
@@ -116,6 +119,49 @@ Plans:
 
 ---
 
+### Phase 7: Fix Config Save Pipeline
+**Goal**: Fix the critical bug where UI config changes don't rebuild the task pipeline — `ConfigStore.save()` updates in-memory config before disk write, causing `reload()` to return `.unchanged` and `rebuildTaskPipeline()` to never be called.
+**Depends on**: Phase 5, Phase 6 (config save and hot-reload both in place)
+**Requirements**: CFG-02, CFG-03, CFG-04
+**Gap Closure**: Closes requirement gaps CFG-02/03/04, integration gap (ConfigStore.save() → rebuildTaskPipeline), flow gap (Config change from UI)
+**Success Criteria** (what must be TRUE):
+  1. Editing duration threshold from menu bar takes effect on the next file processed without restart
+  2. Editing quality cutoff from menu bar takes effect on the next file processed without restart
+  3. Editing OpenAI model from menu bar takes effect on the next PDF processed without restart
+
+Plans: (to be created via `/gsd:plan-phase 7`)
+
+---
+
+### Phase 8: Fix Icon State & Lifecycle Bugs
+**Goal**: Fix the error state icon getting permanently stuck after the first error (lastError never cleared) and the memory leak in FileWatcher.stop() on pause/resume cycles.
+**Depends on**: Phase 5 (icon state and pause/resume implemented there)
+**Requirements**: APP-04, APP-02
+**Gap Closure**: Closes requirement gaps APP-04 (unsatisfied) and APP-02 (partial), integration gap (AppCoordinator → AppState.lastError)
+**Success Criteria** (what must be TRUE):
+  1. After an error occurs and is resolved, the menu bar icon returns to idle/processing state (not stuck on error)
+  2. Pausing and resuming monitoring multiple times does not leak memory (FileWatcher continuation properly finished)
+  3. Dead code (`stopMonitoring()`) is removed
+
+Plans: (to be created via `/gsd:plan-phase 8`)
+
+---
+
+### Phase 9: Phase 5 Verification Pass
+**Goal**: Create missing verification artifacts for Phase 5, verify remaining partial requirements (APP-03, APP-05), and complete pending UAT tests.
+**Depends on**: Phase 7, Phase 8 (bugs fixed before verification)
+**Requirements**: APP-03, APP-05
+**Gap Closure**: Closes requirement gaps APP-03 (partial) and APP-05 (partial), missing VERIFICATION.md and SUMMARY.md for Phase 5
+**Success Criteria** (what must be TRUE):
+  1. Phase 5 VERIFICATION.md exists and documents pass/fail for all 7 Phase 5 requirements
+  2. APP-03 (Launch at Login toggle) is verified working and persists across app restarts
+  3. APP-05 (icon animation during processing) is verified working
+  4. UAT tests 6-10 are completed with documented results
+
+Plans: (to be created via `/gsd:plan-phase 9`)
+
+---
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -126,9 +172,12 @@ Plans:
 | 4. PDF Classification | 3/3 | Complete    | 2026-02-22 |
 | 5. Menu Bar Controls & Configuration | 3/3 | Complete    | 2026-02-22 |
 | 6. Resilience & Polish | 2/2 | Complete    | 2026-02-22 |
+| 7. Fix Config Save Pipeline | 0/0 | Not started | — |
+| 8. Fix Icon State & Lifecycle Bugs | 0/0 | Not started | — |
+| 9. Phase 5 Verification Pass | 0/0 | Not started | — |
 
-**Total plans: 18/18 complete**
+**Total plans: 18/18 complete (gap closure phases pending)**
 
 ---
 *Roadmap created: 2026-02-21*
-*Last updated: 2026-02-22 — Plan 06-02 complete (config hot-reload and sleep/wake recovery). All phases complete.*
+*Last updated: 2026-02-24 — Added gap closure phases 7-9 from milestone audit*
